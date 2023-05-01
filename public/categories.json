@@ -1,0 +1,34 @@
+{
+  "categorias": [
+    {
+      "id": 0,
+      "title": "anillos",
+      "path": "anillos",
+      "tags": ["grande", "mediano"]
+    },
+    {
+      "id": 1,
+      "title": "pulceras",
+      "path": "pulceras",
+      "tags": ["40cm", "oro", "plata"]
+    },
+    {
+      "id": 2,
+      "title": "pendientes",
+      "path": "pendientes",
+      "tags": []
+    }
+  ],
+  "especiales": [
+    {
+      "id": 0,
+      "title": "anillo",
+      "path": "anillo"
+    },
+    {
+      "id": 1,
+      "title": "Anillos para Hombre",
+      "path": "anillos-hombre"
+    }
+  ]
+}
