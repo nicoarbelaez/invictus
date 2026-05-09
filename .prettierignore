@@ -3,3 +3,6 @@ dist
 .astro
 pnpm-lock.yaml
 public
+.agents
+.claude
+skills-lock.json
