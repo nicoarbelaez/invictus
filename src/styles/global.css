@@ -172,10 +172,100 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
     @apply font-sans;
+
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+
+    overscroll-behavior-y: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* ---break--- */
+
+  :root {
+    --scrollbar-size: 10px;
+    --scrollbar-radius: 999px;
+
+    --scrollbar-thumb: color-mix(in oklab, var(--foreground) 14%, transparent);
+
+    --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 24%, transparent);
+
+    --scrollbar-border: color-mix(in oklab, var(--background) 82%, white 18%);
+  }
+
+  .dark {
+    --scrollbar-thumb: color-mix(in oklab, var(--foreground) 18%, transparent);
+
+    --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 30%, transparent);
+
+    --scrollbar-border: color-mix(in oklab, var(--background) 88%, white 12%);
+  }
+
+  /* Chrome, Edge, Safari */
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  /* Elimina flechas */
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      var(--scrollbar-thumb) 0%,
+      color-mix(in oklab, var(--scrollbar-thumb) 72%, transparent) 100%
+    );
+
+    border-radius: var(--scrollbar-radius);
+
+    border: 2px solid transparent;
+    background-clip: padding-box;
+
+    transition:
+      background 300ms ease,
+      opacity 300ms ease,
+      transform 300ms ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      var(--scrollbar-thumb-hover) 0%,
+      color-mix(in oklab, var(--scrollbar-thumb-hover) 72%, transparent) 100%
+    );
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: color-mix(in oklab, var(--foreground) 42%, transparent);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 }
