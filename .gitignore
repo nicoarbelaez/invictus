@@ -1,36 +1,39 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Build output
+dist/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Dependencies
+node_modules/
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# local env files
-.env*.local
+# Environment variables
+.env
+.env.production
 
-# vercel
-.vercel
+# macOS-specific files
+.DS_Store
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# VS Code settings (allow shared settings)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Git-specific files
+.git/
+.gitconfig
+.gitignore
+
+# Other editor/IDE settings
+.idea/
+*.iml
+
+# Temporary/system files
+*.swp
+*.tmp
+Thumbs.db
+
+.astro/

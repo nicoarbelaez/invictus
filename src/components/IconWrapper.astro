@@ -1,0 +1,21 @@
+---
+import { ReactIcon, type IconProps } from './Icon'
+
+type ClientDirective = 'load' | 'idle' | 'visible' | 'only' | false
+
+interface Props extends IconProps {
+  client?: ClientDirective
+}
+
+const { client = 'load', ...props } = Astro.props
+---
+
+{client === 'load' && <ReactIcon client:load {...props} />}
+
+{client === 'idle' && <ReactIcon client:idle {...props} />}
+
+{client === 'visible' && <ReactIcon client:visible {...props} />}
+
+{client === 'only' && <ReactIcon client:only="react" {...props} />}
+
+{client === false && <ReactIcon {...props} />}
