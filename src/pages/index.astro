@@ -1,10 +1,15 @@
 ---
+import { getCollection } from 'astro:content'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import Hero from '@/components/landing/Hero.astro'
 import { ProductList } from '@/components/share/ProductList'
+import type { Product } from '@/features/product/domain/product.schema'
+
+const entries = await getCollection('products')
+const products = entries.map((e) => e.data as Product)
 ---
 
 <BaseLayout>
   <Hero />
-  <ProductList client:load />
+  <ProductList products={products} client:load />
 </BaseLayout>
