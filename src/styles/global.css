@@ -177,6 +177,7 @@
     @apply font-sans;
 
     scroll-behavior: smooth;
+    overflow-y: scroll;
     scrollbar-gutter: stable;
 
     /* Firefox */
@@ -192,29 +193,34 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Evita el shift cuando Radix/shadcn bloquea el scroll */
+  body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Por si Radix expone la variable de compensación */
+  :root {
+    --removed-body-scroll-bar-size: 0px;
+  }
+
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
-
-  /* ---break--- */
 
   :root {
     --scrollbar-size: 10px;
     --scrollbar-radius: 999px;
 
     --scrollbar-thumb: color-mix(in oklab, var(--foreground) 14%, transparent);
-
     --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 24%, transparent);
-
     --scrollbar-border: color-mix(in oklab, var(--background) 82%, white 18%);
   }
 
   .dark {
     --scrollbar-thumb: color-mix(in oklab, var(--foreground) 18%, transparent);
-
     --scrollbar-thumb-hover: color-mix(in oklab, var(--foreground) 30%, transparent);
-
     --scrollbar-border: color-mix(in oklab, var(--background) 88%, white 12%);
   }
 
@@ -243,7 +249,6 @@
     );
 
     border-radius: var(--scrollbar-radius);
-
     border: 2px solid transparent;
     background-clip: padding-box;
 
@@ -267,5 +272,16 @@
 
   ::-webkit-scrollbar-corner {
     background: transparent;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
   }
 }
