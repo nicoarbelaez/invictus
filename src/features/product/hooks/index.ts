@@ -1,1 +1,1 @@
-export { useShare } from './useShare';
+export { useShare } from './useShare'

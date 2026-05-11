@@ -1,1 +1,1 @@
-export { ProductCardProvider, useProductCard } from './product-card.context';
+export { ProductCardProvider, useProductCard } from './product-card.context'
