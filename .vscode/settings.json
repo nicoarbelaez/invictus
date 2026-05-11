@@ -1,4 +1,5 @@
 {
+  "css.lint.unknownAtRules": "ignore",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[astro]": {
@@ -12,5 +13,8 @@
   "typescript.preferences.noUnusedParameters": true,
   "javascript.preferences.noUnusedLocals": true,
   "javascript.preferences.noUnusedParameters": true,
-  "eslint.useFlatConfig": true
+  "eslint.useFlatConfig": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
