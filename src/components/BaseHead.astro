@@ -1,60 +1,463 @@
 ---
 import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+  keywords?: string[]
+  image?: string
+  canonicalURL?: string
+  type?: 'website' | 'article' | 'product'
+
+  noIndex?: boolean
+
+  city?: string
+  category?: string
+  productName?: string
+}
+
+const SITE_URL = 'https://invictusjoyas.com'
+const SITE_NAME = 'Invictus Joyas'
+
+const PHONE = '+573173045568'
+const WHATSAPP = '573173045568'
+
+const DEFAULT_CITY = 'Cali'
+const DEFAULT_REGION = 'Valle del Cauca'
+const DEFAULT_COUNTRY = 'Colombia'
+
+const {
+  title,
+  description,
+  keywords = [],
+  image = `${SITE_URL}/og-image.jpg`,
+  canonicalURL = Astro.url.pathname === '/'
+    ? SITE_URL
+    : new URL(Astro.url.pathname, SITE_URL).href.replace(/\/$/, ''),
+  type = 'website',
+  noIndex = false,
+
+  city = DEFAULT_CITY,
+  category,
+  productName,
+} = Astro.props
+
+/* -------------------------------------------------------------------------- */
+/* Utils */
+/* -------------------------------------------------------------------------- */
+
+function unique<T>(array: T[]) {
+  return [...new Set(array)]
+}
+
+function cleanText(value?: string) {
+  return value?.trim().replace(/\s+/g, ' ')
+}
+
+function normalizeKeywords(values: string[]) {
+  return unique(
+    values
+      .flatMap((keyword) => keyword.split(','))
+      .map((keyword) => keyword.trim().toLowerCase())
+      .filter(Boolean)
+  )
+}
+
+function buildTitle() {
+  if (title) {
+    return title
+  }
+
+  const parts = [productName, category, city ? `Joyería en ${city}` : null, SITE_NAME].filter(
+    Boolean
+  )
+
+  if (!productName && !category) {
+    return `${SITE_NAME} | Joyería en Oro 18K en Cali, Colombia`
+  }
+
+  return parts.join(' | ')
+}
+
+function buildDescription() {
+  if (description) {
+    return cleanText(description)
+  }
+
+  if (productName) {
+    return `${productName} en Oro 18K garantizado. Compra online con envío nacional y garantía de por vida en ${SITE_NAME}.`
+  }
+
+  if (category) {
+    return `${category} en Oro 18K garantizado en ${city}. Diseños exclusivos, fabricación nacional y envíos a toda Colombia.`
+  }
+
+  return `Joyería en Oro 18K en ${city}, Colombia. Cadenas, dijes, aretes, rosarios y joyas personalizadas con garantía de por vida y envíos nacionales.`
+}
+
+function buildKeywords() {
+  const defaultKeywords = [
+    'joyería en cali',
+    'joyería oro 18k cali',
+    'joyas oro 18 kilates colombia',
+    'joyas en oro colombia',
+    'cadenas oro 18k',
+    'dijes oro 18k',
+    'aretes oro 18 kilates',
+    'joyería garantía de por vida',
+    'oro italy 750',
+    'oro nacional 18k',
+  ]
+
+  if (category) {
+    defaultKeywords.push(`${category.toLowerCase()} en cali`)
+    defaultKeywords.push(`${category.toLowerCase()} colombia`)
+  }
+
+  if (productName) {
+    defaultKeywords.push(productName.toLowerCase())
+  }
+
+  return normalizeKeywords([...defaultKeywords, ...keywords]).join(', ')
+}
+
+const seoTitle = buildTitle()
+const seoDescription = buildDescription()
+const seoKeywords = buildKeywords()
+
+/* -------------------------------------------------------------------------- */
+/* Schema.org */
+/* -------------------------------------------------------------------------- */
+
+const schemaOrg = JSON.stringify({
+  '@context': 'https://schema.org',
+
+  '@graph': [
+    {
+      '@type': ['JewelryStore', 'LocalBusiness'],
+
+      '@id': `${SITE_URL}/#business`,
+
+      name: SITE_NAME,
+
+      description: seoDescription,
+
+      url: SITE_URL,
+
+      image: image,
+
+      logo: `${SITE_URL}/logo.png`,
+
+      telephone: PHONE,
+
+      priceRange: '$$$',
+
+      sameAs: [`https://wa.me/${WHATSAPP}`, 'https://www.instagram.com/invictusjoyas'],
+
+      address: {
+        '@type': 'PostalAddress',
+
+        addressLocality: city,
+        addressRegion: DEFAULT_REGION,
+        addressCountry: 'CO',
+      },
+
+      geo: {
+        '@type': 'GeoCoordinates',
+
+        latitude: 3.4516,
+        longitude: -76.532,
+      },
+
+      areaServed: [
+        {
+          '@type': 'City',
+          name: 'Cali',
+        },
+
+        {
+          '@type': 'Country',
+          name: 'Colombia',
+        },
+      ],
+
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+
+        name: 'Joyas en Oro 18K',
+
+        itemListElement: [
+          {
+            '@type': 'Offer',
+
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Cadenas de Oro 18K',
+            },
+          },
+
+          {
+            '@type': 'Offer',
+
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Dijes de Oro 18K',
+            },
+          },
+
+          {
+            '@type': 'Offer',
+
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Aretes de Oro 18K',
+            },
+          },
+
+          {
+            '@type': 'Offer',
+
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Pulseras de Oro 18K',
+            },
+          },
+        ],
+      },
+    },
+
+    {
+      '@type': 'WebSite',
+
+      '@id': `${SITE_URL}/#website`,
+
+      url: SITE_URL,
+
+      name: SITE_NAME,
+
+      inLanguage: 'es-CO',
+
+      potentialAction: {
+        '@type': 'SearchAction',
+
+        target: {
+          '@type': 'EntryPoint',
+
+          urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+        },
+
+        'query-input': 'required name=search_term_string',
+      },
+    },
+
+    {
+      '@type': 'Organization',
+
+      '@id': `${SITE_URL}/#organization`,
+
+      name: SITE_NAME,
+
+      url: SITE_URL,
+
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+      },
+
+      sameAs: [`https://wa.me/${WHATSAPP}`, 'https://www.instagram.com/invictusjoyas'],
+    },
+
+    {
+      '@type': 'WebPage',
+
+      '@id': `${canonicalURL}#webpage`,
+
+      url: canonicalURL,
+
+      name: seoTitle,
+
+      description: seoDescription,
+
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+
+      publisher: { '@id': `${SITE_URL}/#organization` },
+
+      inLanguage: 'es-CO',
+    },
+
+    ...(type === 'product' && productName
+      ? [
+          {
+            '@type': 'Product',
+
+            name: productName,
+
+            image: image,
+
+            description: seoDescription,
+
+            brand: {
+              '@type': 'Brand',
+              name: SITE_NAME,
+            },
+          },
+        ]
+      : []),
+  ],
+})
 ---
 
+<!-- ========================================================================= --><!-- Basic --><!-- ========================================================================= -->
 <meta charset="UTF-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Basic Meta Tags -->
-<title>Your Website Title</title>
-<meta name="description" content="A brief description of your website content." />
-<meta name="keywords" content="keyword1, keyword2, keyword3" />
-<meta name="author" content="Your Name or Company Name" />
-
-<!-- Favicons -->
-<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" href="/icon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/manifest.webmanifest" />
-
-<!-- Favicon for IE -->
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-
-<!-- Favicons for different sizes -->
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.yourwebsite.com/" />
-<meta property="og:title" content="Your Website Title" />
-<meta property="og:description" content="A brief description of your website content." />
-<meta property="og:image" content="https://www.yourwebsite.com/path/to/image.jpg" />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content="https://www.yourwebsite.com/" />
-<meta property="twitter:title" content="Your Website Title" />
-<meta property="twitter:description" content="A brief description of your website content." />
-<meta property="twitter:image" content="https://www.yourwebsite.com/path/to/image.jpg" />
-
-<!-- Canonical URL -->
-<link rel="canonical" href="https://www.yourwebsite.com/" />
-
-<!-- Additional SEO -->
-<meta name="robots" content="index, follow" />
-<meta name="googlebot" content="index, follow" />
-
-<!-- Apple Touch Icon (already included in favicons, but keeping for backwards compatibility) -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-
-<!-- Theme Color for Mobile Browsers -->
-<meta name="theme-color" content="#3E433E" />
-
-<!-- For IE -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<!-- HTML in your document's head -->
-<link rel="preconnect" href="https://rsms.me/" />
+<!-- ========================================================================= -->
+<!-- Primary SEO -->
+<!-- ========================================================================= -->
+
+<title>{seoTitle}</title>
+
+<meta name="description" content={seoDescription} />
+
+<!-- Google ignores meta keywords for ranking -->
+<meta name="keywords" content={seoKeywords} />
+
+<meta name="author" content={SITE_NAME} />
+
+<meta
+  name="robots"
+  content={noIndex
+    ? 'noindex, nofollow'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+/>
+
+<meta name="googlebot" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+
+<!-- ========================================================================= -->
+<!-- Canonical -->
+<!-- ========================================================================= -->
+
+<link rel="canonical" href={canonicalURL} />
+
+<!-- ========================================================================= -->
+<!-- Geo SEO -->
+<!-- ========================================================================= -->
+
+<meta name="geo.region" content="CO-VAC" />
+
+<meta name="geo.placename" content={`${city}, ${DEFAULT_REGION}, ${DEFAULT_COUNTRY}`} />
+
+<meta name="geo.position" content="3.4516;-76.5320" />
+
+<meta name="ICBM" content="3.4516, -76.5320" />
+
+<meta name="language" content="es" />
+
+<meta name="content-language" content="es-CO" />
+
+<!-- ========================================================================= -->
+<!-- Open Graph -->
+<!-- ========================================================================= -->
+
+<meta property="og:type" content={type} />
+
+<meta property="og:site_name" content={SITE_NAME} />
+
+<meta property="og:url" content={canonicalURL} />
+
+<meta property="og:title" content={seoTitle} />
+
+<meta property="og:description" content={seoDescription} />
+
+<meta property="og:image" content={image} />
+
+<meta property="og:image:width" content="1200" />
+
+<meta property="og:image:height" content="630" />
+
+<meta property="og:image:alt" content={`${SITE_NAME} – Joyería en Oro 18K en Cali, Colombia`} />
+
+<meta property="og:locale" content="es_CO" />
+
+<!-- ========================================================================= -->
+<!-- Business Contact -->
+<!-- ========================================================================= -->
+
+<meta property="business:contact_data:phone_number" content={PHONE} />
+
+<meta property="business:contact_data:locality" content={city} />
+
+<meta property="business:contact_data:region" content={DEFAULT_REGION} />
+
+<meta property="business:contact_data:country_name" content={DEFAULT_COUNTRY} />
+
+<!-- ========================================================================= -->
+<!-- Twitter / X -->
+<!-- ========================================================================= -->
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:site" content="@invictusjoyas" />
+
+<meta name="twitter:creator" content="@invictusjoyas" />
+
+<meta name="twitter:url" content={canonicalURL} />
+
+<meta name="twitter:title" content={seoTitle} />
+
+<meta name="twitter:description" content={seoDescription} />
+
+<meta name="twitter:image" content={image} />
+
+<!-- ========================================================================= -->
+<!-- Favicons -->
+<!-- ========================================================================= -->
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<link rel="manifest" href="/manifest.webmanifest" />
+
+<!-- ========================================================================= -->
+<!-- Theme -->
+<!-- ========================================================================= -->
+
+<meta name="theme-color" content="#C9A84C" />
+
+<meta name="msapplication-TileColor" content="#C9A84C" />
+
+<!-- ========================================================================= -->
+<!-- Performance -->
+<!-- ========================================================================= -->
+
+<link rel="preconnect" href="https://rsms.me/" crossorigin />
+
+<link rel="dns-prefetch" href="https://rsms.me/" />
+
+<link rel="preload" href="https://rsms.me/inter/inter.css" as="style" />
+
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+<!-- ========================================================================= -->
+<!-- Alternate languages -->
+<!-- ========================================================================= -->
+
+<link rel="alternate" hreflang="es-CO" href={canonicalURL} />
+<link rel="alternate" hreflang="es" href={canonicalURL} />
+<link rel="alternate" hreflang="x-default" href={SITE_URL} />
+
+<!-- ========================================================================= -->
+<!-- Structured Data -->
+<!-- ========================================================================= -->
+
+<script type="application/ld+json" set:html={schemaOrg} />

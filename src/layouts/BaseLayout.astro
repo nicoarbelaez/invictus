@@ -1,14 +1,38 @@
 ---
 import BaseHead from '@/components/BaseHead.astro'
 import Footer from '@/components/global/Footer.astro'
+
+interface Props {
+  title?: string
+  description?: string
+  keywords?: string[]
+  image?: string
+  canonicalURL?: string
+  type?: 'website' | 'article' | 'product'
+}
+
+const { title, description, keywords, image, canonicalURL, type } = Astro.props
 ---
 
-<html lang="en">
+<html lang="es">
   <head>
-    <BaseHead />
+    <BaseHead
+      title={title}
+      description={description}
+      keywords={keywords}
+      image={image}
+      canonicalURL={canonicalURL}
+      type={type}
+    />
   </head>
-  <body class="mx-auto flex max-w-6xl flex-col bg-white px-8 lg:px-12">
-    <main class="grow"><slot /></main>
-    <Footer />
+
+  <body class="bg-background text-foreground">
+    <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-8 lg:px-12">
+      <main class="grow">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
   </body>
 </html>
