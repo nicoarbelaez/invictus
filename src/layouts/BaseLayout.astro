@@ -1,6 +1,7 @@
 ---
 import BaseHead from '@/components/BaseHead.astro'
 import Footer from '@/components/global/Footer.astro'
+import { cn } from '@/lib/utils'
 
 interface Props {
   title?: string
@@ -9,9 +10,10 @@ interface Props {
   image?: string
   canonicalURL?: string
   type?: 'website' | 'article' | 'product'
+  className?: string
 }
 
-const { title, description, keywords, image, canonicalURL, type } = Astro.props
+const { title, description, keywords, image, canonicalURL, type, className } = Astro.props
 ---
 
 <html lang="es">
@@ -28,7 +30,7 @@ const { title, description, keywords, image, canonicalURL, type } = Astro.props
 
   <body class="bg-background text-foreground">
     <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-8 lg:px-12">
-      <main class="grow">
+      <main class={cn('grow', className)}>
         <slot />
       </main>
 
