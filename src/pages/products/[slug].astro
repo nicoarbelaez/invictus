@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb'
+import { ProductPageView } from '@/features/product/components/ProductPageView'
+import { getCategoryLabel } from '@/features/product/domain/product.schema'
+import type { Product } from '@/features/product/domain/product.schema'
+
+export async function getStaticPaths() {
+  const entries = await getCollection('products')
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { product: entry.data as Product },
+  }))
+}
+
+const { product } = Astro.props
+const categoryLabel = product.category ? getCategoryLabel(product.category) : null
+const categoryHref = product.category ? `/category/${product.category}` : null
+---
+
+<BaseLayout title={`${product.title} | Invictus Joyas`} description={product.description}>
+  <div class="container mx-auto px-4 py-6 lg:py-10">
+    <Breadcrumb className="mb-8">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        {
+          categoryLabel && categoryHref && (
+            <>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href={categoryHref}>{categoryLabel}</BreadcrumbLink>
+              </BreadcrumbItem>
+            </>
+          )
+        }
+
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{product.title}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+
+    <ProductPageView product={product} client:load />
+  </div>
+</BaseLayout>

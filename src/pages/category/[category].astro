@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { ProductList } from '@/components/share/ProductList'
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from '@/components/ui/breadcrumb'
+import { getCategoryLabel, type Product, type ProductCategorySlug } from '@/features/product/domain'
+
+export async function getStaticPaths() {
+  const entries = await getCollection('products')
+  const products = entries.map((e) => e.data as Product)
+
+  const categoriesWithProducts = [
+    ...new Set(products.map((p) => p.category).filter(Boolean)),
+  ] as ProductCategorySlug[]
+
+  return categoriesWithProducts.map((category) => ({
+    params: { category },
+    props: {
+      products: products.filter((p) => p.category === category),
+      category,
+    },
+  }))
+}
+
+const { products, category } = Astro.props
+const label = getCategoryLabel(category)
+---
+
+<BaseLayout
+  title={`${label} | Invictus Joyas`}
+  description={`Explora nuestra colección de ${label.toLowerCase()} en oro.`}
+>
+  <div class="py-6 lg:py-10">
+    <Breadcrumb className="mb-8">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{label}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+
+    <div class="mb-8">
+      <h1 class="text-3xl font-medium tracking-tight">{label}</h1>
+      <p class="text-muted-foreground mt-1 text-sm">
+        {products.length}
+        {products.length === 1 ? 'producto' : 'productos'}
+      </p>
+    </div>
+
+    <ProductList products={products} client:load />
+  </div>
+</BaseLayout>
