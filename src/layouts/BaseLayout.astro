@@ -1,7 +1,10 @@
 ---
 import BaseHead from '@/components/BaseHead.astro'
 import Footer from '@/components/global/Footer.astro'
+import { NavBar } from '@/components/global/NavBar'
 import { cn } from '@/lib/utils'
+import { productRepository } from '@/features/product/repository'
+import { getCategoryLabel } from '@/features/product/domain'
 
 interface Props {
   title?: string
@@ -14,6 +17,13 @@ interface Props {
 }
 
 const { title, description, keywords, image, canonicalURL, type, className } = Astro.props
+
+const allProducts = await productRepository.getProducts()
+const activeSlugs = [...new Set(allProducts.map((p) => p.category).filter(Boolean))]
+const navCategories = activeSlugs.map((slug) => ({
+  label: getCategoryLabel(slug!),
+  href: `/category/${slug}`,
+}))
 ---
 
 <html lang="es">
@@ -28,8 +38,12 @@ const { title, description, keywords, image, canonicalURL, type, className } = A
     />
   </head>
 
-  <body class="bg-background text-foreground">
+  <body class="bg-background text-foreground dark">
+    <NavBar categories={navCategories} client:load />
+
     <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-8 lg:px-12">
+      <div class="h-14 shrink-0 lg:hidden" aria-hidden="true" />
+
       <main class={cn('grow', className)}>
         <slot />
       </main>

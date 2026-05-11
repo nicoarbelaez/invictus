@@ -2,14 +2,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { Button } from '@/components/ui/button'
 import { ProductList } from '@/components/share/ProductList'
-import { Product } from '@/features/product/domain'
-import { getCollection } from 'astro:content'
 import { Separator } from '@/components/ui/separator'
 import IconWrapper from '@/components/IconWrapper.astro'
 import { ChevronLeft } from 'lucide-react'
+import { productRepository } from '@/features/product/repository'
 
-const entries = await getCollection('products')
-const products = entries.map((e) => e.data as Product)
+const products = await productRepository.getProducts()
 ---
 
 <BaseLayout

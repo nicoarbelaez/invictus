@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import {
   Breadcrumb,
@@ -12,12 +11,13 @@ import {
 import { ProductPageView } from '@/features/product/components/ProductPageView'
 import { getCategoryLabel } from '@/features/product/domain/product.schema'
 import type { Product } from '@/features/product/domain/product.schema'
+import { productRepository } from '@/features/product/repository'
 
 export async function getStaticPaths() {
-  const entries = await getCollection('products')
-  return entries.map((entry) => ({
-    params: { slug: entry.id },
-    props: { product: entry.data as Product },
+  const products = await productRepository.getProducts()
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
   }))
 }
 
