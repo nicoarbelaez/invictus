@@ -15,7 +15,7 @@ import {
 import { useWishlistStore } from '@/features/product/store'
 import { useCartStore, useCartUIStore } from '@/features/cart/store'
 import { CountBadge } from '@/components/share'
-import type { NavCategory } from '@/components/global/nav/NavCategoriesBar'
+import { type NavCategory, NavBrand } from '@/components/global/nav'
 
 interface MobileMenuDrawerProps {
   categories: NavCategory[]
@@ -32,10 +32,6 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
 
   const openSheet = useCartUIStore((state) => state.openSheet)
 
-  function close() {
-    setOpen(false)
-  }
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -45,18 +41,13 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
       </SheetTrigger>
 
       <SheetContent side="left" className="flex w-72 flex-col p-0" aria-describedby={undefined}>
-        {/* Header */}
-        <SheetHeader className="border-b px-4 py-3">
-          <div className="flex items-center justify-between gap-3">
-            <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
+        <SheetHeader className="relative border-b px-4 py-3">
+          <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
 
-            <a href="/" onClick={close} className="flex items-center gap-2">
-              <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-full text-sm font-bold">
-                IJ
-              </div>
-
-              <span className="font-semibold tracking-tight">Invictus Joyas</span>
-            </a>
+          <div className="flex items-center justify-end">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <NavBrand className="h-12" />
+            </div>
 
             <SheetClose asChild>
               <Button variant="ghost" size="icon-sm" aria-label="Cerrar menú">
@@ -66,7 +57,6 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
           </div>
         </SheetHeader>
 
-        {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-2 py-4">
           <p className="text-muted-foreground mb-2 px-3 text-xs font-medium tracking-wider uppercase">
             Categorías
@@ -100,7 +90,6 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
           </SheetClose>
         </nav>
 
-        {/* Footer */}
         <div className="shrink-0 border-t p-3">
           <div className="flex gap-2">
             <Button variant="outline" className="flex-1 justify-start gap-2" asChild>
@@ -110,7 +99,7 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
 
                   <span>Favoritos</span>
 
-                  <CountBadge count={wishlistCount} />
+                  <CountBadge count={wishlistCount} className="ml-auto" />
                 </a>
               </SheetClose>
             </Button>
@@ -127,7 +116,7 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
 
                 <span>Carrito</span>
 
-                <CountBadge count={cartCount} />
+                <CountBadge count={cartCount} className="ml-auto" />
               </Button>
             </SheetClose>
           </div>

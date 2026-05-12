@@ -3,9 +3,9 @@
 import { Heart, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { CountBadge } from '@/components/share'
 import { useWishlistStore } from '@/features/product/store'
 import { useCartStore, useCartUIStore } from '@/features/cart/store'
-import { CountBadge } from '@/components/share'
 
 interface NavActionsProps {
   className?: string
@@ -14,7 +14,11 @@ interface NavActionsProps {
 
 export function NavActions({ className, cartOnly = false }: NavActionsProps) {
   const wishlistCount = useWishlistStore((state) => state.ids.length)
-  const cartCount = useCartStore((state) => state.items.reduce((s, i) => s + i.quantity, 0))
+
+  const cartCount = useCartStore((state) =>
+    state.items.reduce((sum, item) => sum + item.quantity, 0)
+  )
+
   const openSheet = useCartUIStore((state) => state.openSheet)
 
   return (
@@ -31,7 +35,8 @@ export function NavActions({ className, cartOnly = false }: NavActionsProps) {
               <Heart className="size-5" />
             </a>
           </Button>
-          <CountBadge count={wishlistCount} />
+
+          <CountBadge count={wishlistCount} floating position="top-left" />
         </div>
       )}
 
@@ -44,7 +49,8 @@ export function NavActions({ className, cartOnly = false }: NavActionsProps) {
         >
           <ShoppingCart className="size-5" />
         </Button>
-        <CountBadge count={cartCount} />
+
+        <CountBadge count={cartCount} floating position="top-right" />
       </div>
     </div>
   )
