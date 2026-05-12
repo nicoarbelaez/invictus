@@ -1,5 +1,14 @@
 ---
 import '../styles/global.css'
+import {
+  SITE_URL,
+  SITE_NAME,
+  PHONE,
+  WHATSAPP_NUMBER,
+  DEFAULT_CITY,
+  DEFAULT_REGION,
+  DEFAULT_COUNTRY,
+} from '@/config/site'
 
 interface Props {
   title?: string
@@ -16,21 +25,11 @@ interface Props {
   productName?: string
 }
 
-const SITE_URL = 'https://invictusjoyas.com'
-const SITE_NAME = 'Invictus Joyas'
-
-const PHONE = '+573173045568'
-const WHATSAPP = '573173045568'
-
-const DEFAULT_CITY = 'Cali'
-const DEFAULT_REGION = 'Valle del Cauca'
-const DEFAULT_COUNTRY = 'Colombia'
-
 const {
   title,
   description,
   keywords = [],
-  image = `${SITE_URL}/og-image.jpg`,
+  image = 'https://res.cloudinary.com/dv8ipi5yp/image/upload/v1778564491/621444437_18549015094046948_4636023548870792242_n_p9dfd7.png',
   canonicalURL = Astro.url.pathname === '/'
     ? SITE_URL
     : new URL(Astro.url.pathname, SITE_URL).href.replace(/\/$/, ''),
@@ -152,7 +151,7 @@ const schemaOrg = JSON.stringify({
 
       priceRange: '$$$',
 
-      sameAs: [`https://wa.me/${WHATSAPP}`, 'https://www.instagram.com/invictusjoyas'],
+      sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`, 'https://www.instagram.com/invictusjoyas'],
 
       address: {
         '@type': 'PostalAddress',
@@ -264,7 +263,7 @@ const schemaOrg = JSON.stringify({
         url: `${SITE_URL}/logo.png`,
       },
 
-      sameAs: [`https://wa.me/${WHATSAPP}`, 'https://www.instagram.com/invictusjoyas'],
+      sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`, 'https://www.instagram.com/invictusjoyas'],
     },
 
     {

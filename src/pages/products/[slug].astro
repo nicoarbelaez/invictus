@@ -25,7 +25,14 @@ const categoryLabel = product.category ? getCategoryLabel(product.category) : nu
 const categoryHref = product.category ? `/category/${product.category}` : null
 ---
 
-<BaseLayout title={`${product.title} | Invictus Joyas`} description={product.description}>
+<BaseLayout
+  title={`${product.title} | Invictus Joyas`}
+  description={product.shortDescription ?? product.description}
+  image={product.images[0]?.src}
+  type="product"
+  productName={product.title}
+  category={categoryLabel ?? undefined}
+>
   <div class="container mx-auto px-4 py-6 lg:py-10">
     <Breadcrumb className="mb-8">
       <BreadcrumbList>

@@ -14,10 +14,22 @@ interface Props {
   image?: string
   canonicalURL?: string
   type?: 'website' | 'article' | 'product'
+  productName?: string
+  category?: string
   className?: string
 }
 
-const { title, description, keywords, image, canonicalURL, type, className } = Astro.props
+const {
+  title,
+  description,
+  keywords,
+  image,
+  canonicalURL,
+  type,
+  productName,
+  category,
+  className,
+} = Astro.props
 
 const categorySlugs = await productRepository.getCategories()
 const navCategories = categorySlugs.map((slug) => ({
@@ -35,6 +47,8 @@ const navCategories = categorySlugs.map((slug) => ({
       image={image}
       canonicalURL={canonicalURL}
       type={type}
+      productName={productName}
+      category={category}
     />
   </head>
 
