@@ -8,7 +8,7 @@ type ProductCardContextValue = {
   sections: AccordionSection[]
   liked: boolean
   onAddToCart?: (quantity: number) => void
-  onBuyNow?: () => void
+  onBuyNow?: (quantity: number) => void
   handleLike?: () => void
   handleShare: () => void
   shareFeedback: boolean

@@ -25,12 +25,12 @@ export function ProductCartButton({
   return (
     <Button
       type="button"
-      className={cn('w-full', className)}
+      className={cn('w-full gap-2', className)}
       disabled={soldOut || disabled}
       onClick={onClick ?? (() => onAddToCart?.(1))}
       {...rest}
     >
-      {soldOut ? soldOutContent : children}
+      {soldOut ? <>{soldOutContent}</> : children}
     </Button>
   )
 }

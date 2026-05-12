@@ -33,6 +33,10 @@ export function getCategoryLabel(category: ProductCategorySlug): string {
   return CATEGORY_LABELS[category]
 }
 
+export function computeFinalPrice(product: Pick<Product, 'price' | 'discount'>): number {
+  return product.discount ? Math.round(product.price * (1 - product.discount)) : product.price
+}
+
 const discountSchema = z
   .number()
   .min(0)
@@ -182,7 +186,7 @@ export interface ProductCardCallbacks {
   onLike?: () => void
   onShare?: () => void
   onAddToCart?: (quantity: number) => void
-  onBuyNow?: () => void
+  onBuyNow?: (quantity: number) => void
 }
 
 export interface ProductCardStyleProps {

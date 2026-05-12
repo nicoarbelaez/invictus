@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import { ShoppingCart } from 'lucide-react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { QuantitySelector } from '@/components/share/QuantitySelector'
 
 import {
   ProductCardPrice,
@@ -12,8 +13,9 @@ import {
   ProductCardImage,
 } from '@/features/product/components'
 import { ProductCardProps } from '@/features/product/domain'
-import { useShare } from '@/features/product/hooks'
+import { useShare, useProductActions } from '@/features/product/hooks'
 import { ProductCardProvider } from '@/features/product/context'
+import { useCartStore } from '@/features/cart/store'
 
 export function ProductCard({
   product,
@@ -34,14 +36,23 @@ export function ProductCard({
     onShare,
   })
 
+  const cartStore = useCartStore()
+  const cartItem = cartStore.items.find((i) => i.productId === product.id)
+  const isInCart = !!cartItem
+
+  const { onAddToCart: defaultAddToCart, onBuyNow: defaultBuyNow } = useProductActions(product)
+
+  const handleAddToCart = onAddToCart ?? defaultAddToCart
+  const handleBuyNow = onBuyNow ?? defaultBuyNow
+
   return (
     <ProductCardProvider
       value={{
         product,
         sections,
         liked,
-        onAddToCart,
-        onBuyNow,
+        onAddToCart: handleAddToCart,
+        onBuyNow: handleBuyNow,
         handleLike: onLike,
         handleShare,
         shareFeedback,
@@ -86,10 +97,20 @@ export function ProductCard({
         </CardContent>
 
         <CardFooter className={cn('bg-muted/40 border-none p-4 pt-0', footerClassName)}>
-          <ProductCartButton soldOutContent="Agotado">
-            <ShoppingCart className="size-4" />
-            Agregar al carrito
-          </ProductCartButton>
+          {isInCart ? (
+            <div className="flex w-full items-center justify-between gap-3">
+              <QuantitySelector
+                value={cartItem.quantity}
+                onChange={(qty) => cartStore.updateQuantity(product.id, qty)}
+                className="w-full"
+              />
+            </div>
+          ) : (
+            <ProductCartButton soldOutContent="Agotado">
+              <ShoppingCart className="size-4" />
+              Agregar al carrito
+            </ProductCartButton>
+          )}
         </CardFooter>
       </Card>
     </ProductCardProvider>

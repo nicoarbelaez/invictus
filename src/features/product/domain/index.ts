@@ -16,6 +16,7 @@ export {
   ProductCategory,
   ProductCategorySchema,
   getCategoryLabel,
+  computeFinalPrice,
   ProductImageSchema,
   ProductMetalSchema,
   ProductGemstoneSchema,

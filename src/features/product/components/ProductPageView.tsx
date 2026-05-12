@@ -1,12 +1,11 @@
 'use client'
 
 import { Separator } from '@/components/ui/separator'
-import { ProductCardProvider } from '@/features/product/context'
-import { useShare } from '@/features/product/hooks/useShare'
+import type { Product } from '@/features/product/domain'
+import { useProductActions, useShare } from '@/features/product/hooks'
 import { useWishlistStore } from '@/features/product/store'
-import { ProductGallery } from '@/features/product/components/ProductGalley'
-import { ProductQuickViewInfo } from '@/features/product/components/ProductQuickViewInfo'
-import type { Product } from '@/features/product/domain/product.schema'
+import { ProductCardProvider } from '@/features/product/context'
+import { ProductGallery, ProductQuickViewInfo } from '@/features/product/components'
 
 interface ProductPageViewProps {
   product: Product
@@ -22,6 +21,8 @@ export function ProductPageView({ product }: ProductPageViewProps) {
     shareUrl: typeof window !== 'undefined' ? window.location.href : product.href,
   })
 
+  const { onAddToCart, onBuyNow } = useProductActions(product)
+
   return (
     <ProductCardProvider
       value={{
@@ -31,8 +32,8 @@ export function ProductPageView({ product }: ProductPageViewProps) {
         handleLike: () => toggle(product.id),
         handleShare,
         shareFeedback,
-        onAddToCart: (quantity) => console.log(`Add ${quantity} × ${product.title}`),
-        onBuyNow: () => console.log(`Buy now: ${product.title}`),
+        onAddToCart,
+        onBuyNow,
       }}
     >
       <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">

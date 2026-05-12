@@ -19,6 +19,7 @@ import {
   ProductLikeButton,
   ProductShareButton,
 } from '@/features/product/components'
+import { computeFinalPrice } from '@/features/product/domain'
 import type { AccordionSection, Product, ProductMeasurement } from '@/features/product/domain'
 
 const METAL_COLOR_LABEL: Record<string, string> = {
@@ -142,9 +143,7 @@ export function ProductQuickViewInfo() {
   const { product, sections, onAddToCart, onBuyNow } = useProductCard()
 
   const [quantity, setQuantity] = React.useState(1)
-  const finalPrice = product.discount
-    ? Math.round(product.price * (1 - product.discount))
-    : product.price
+  const finalPrice = computeFinalPrice(product)
   const total = formatCurrency(finalPrice * quantity)
 
   const stockText = product.commercial?.stockText ?? 'Disponible para envío inmediato'
@@ -199,7 +198,14 @@ export function ProductQuickViewInfo() {
               </div>
             </div>
 
-            <Button variant="outline" className="w-full" size="lg" onClick={onBuyNow}>
+            <Button
+              variant="outline"
+              className="w-full"
+              size="lg"
+              onClick={() => {
+                onBuyNow?.(quantity)
+              }}
+            >
               Comprar ahora
             </Button>
           </>
