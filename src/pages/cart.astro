@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { CartCheckoutView } from '@/features/cart/components'
+---
+
+<BaseLayout
+  title="Carrito | Invictus Joyas"
+  description="Revisa y finaliza tu pedido de joyas en oro."
+>
+  <CartCheckoutView client:load />
+</BaseLayout>
