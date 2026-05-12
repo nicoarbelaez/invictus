@@ -1,4 +1,9 @@
-import type { CardProvider, FormState, FormSectionDef, PaymentMethod } from '@/features/cart/types/checkout.types'
+import type {
+  CardProvider,
+  FormState,
+  FormSectionDef,
+  PaymentMethod,
+} from '@/features/cart/types/checkout.types'
 
 export const PAYMENT_METHODS: { value: PaymentMethod; label: string; description: string }[] = [
   {
@@ -43,15 +48,45 @@ export const FORM_SECTIONS: FormSectionDef[] = [
   {
     title: 'Información de contacto',
     rows: [
-      [{ key: 'email', label: 'Correo electrónico', type: 'email', placeholder: 'correo@ejemplo.com', required: true }],
-      [{ key: 'fullName', label: 'Nombre completo', placeholder: 'Tu nombre completo', required: true }],
-      [{ key: 'phone', label: 'Teléfono / WhatsApp', type: 'tel', placeholder: '+57 300 000 0000', required: true }],
+      [
+        {
+          key: 'email',
+          label: 'Correo electrónico',
+          type: 'email',
+          placeholder: 'correo@ejemplo.com',
+          required: true,
+        },
+      ],
+      [
+        {
+          key: 'fullName',
+          label: 'Nombre completo',
+          placeholder: 'Tu nombre completo',
+          required: true,
+        },
+      ],
+      [
+        {
+          key: 'phone',
+          label: 'Teléfono / WhatsApp',
+          type: 'tel',
+          placeholder: '+57 300 000 0000',
+          required: true,
+        },
+      ],
     ],
   },
   {
     title: 'Dirección de entrega',
     rows: [
-      [{ key: 'address', label: 'Dirección', placeholder: 'Calle, número, apartamento', required: true }],
+      [
+        {
+          key: 'address',
+          label: 'Dirección',
+          placeholder: 'Calle, número, apartamento',
+          required: true,
+        },
+      ],
       [
         { key: 'city', label: 'Ciudad', placeholder: 'Ciudad', required: true },
         { key: 'department', label: 'Departamento', placeholder: 'Departamento', required: true },

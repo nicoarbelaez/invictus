@@ -1,5 +1,5 @@
-export { CardProviderSelector } from './CardProviderSelector';
-export { CheckoutForm } from './CheckoutForm';
-export { EmptyCart } from './EmptyCart';
-export { OrderSummary } from './OrderSummary';
-export { PaymentMethodCard } from './PaymentMethodCard';
+export { CardProviderSelector } from './CardProviderSelector'
+export { CheckoutForm } from './CheckoutForm'
+export { EmptyCart } from './EmptyCart'
+export { OrderSummary } from './OrderSummary'
+export { PaymentMethodCard } from './PaymentMethodCard'

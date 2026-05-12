@@ -13,7 +13,11 @@ export function CardProviderSelector({ value, onValueChange, uid }: CardProvider
   return (
     <div className="ml-4 flex flex-col gap-3 border-l pl-4">
       <p className="text-sm font-medium">Selecciona la pasarela</p>
-      <RadioGroup value={value} onValueChange={(v) => onValueChange(v as CardProvider)} className="gap-2">
+      <RadioGroup
+        value={value}
+        onValueChange={(v) => onValueChange(v as CardProvider)}
+        className="gap-2"
+      >
         {CARD_PROVIDERS.map((provider) => {
           const id = `${uid}-card-${provider.value}`
           return (
