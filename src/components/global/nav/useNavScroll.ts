@@ -1,33 +1,23 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
+import { useMotionValueEvent, useScroll } from 'framer-motion'
 
-export function useNavScroll(threshold = 108) {
-  const [showFixed, setShowFixed] = useState(false)
-  const lastY = useRef(0)
+const SCROLL_TOP_OFFSET = 10
+const SCROLL_HIDE_THRESHOLD = 120
 
-  useEffect(() => {
-    const onScroll = () => {
-      const currentY = window.scrollY
-      const delta = currentY - lastY.current
-      if (Math.abs(delta) < 4) return
+export function useNavScroll() {
+  const { scrollY } = useScroll()
+  const [isVisible, setIsVisible] = useState(true)
 
-      const scrollingUp = delta < 0
+  useMotionValueEvent(scrollY, 'change', (current) => {
+    const previous = scrollY.getPrevious() ?? 0
+    const direction = current - previous
+    const shouldBeVisible =
+      current <= SCROLL_TOP_OFFSET || direction < 0 || current < SCROLL_HIDE_THRESHOLD
 
-      if (currentY <= threshold) {
-        setShowFixed(false)
-      } else if (scrollingUp) {
-        setShowFixed(true)
-      } else {
-        setShowFixed(false)
-      }
+    setIsVisible((prev) => (prev === shouldBeVisible ? prev : shouldBeVisible))
+  })
 
-      lastY.current = currentY
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [threshold])
-
-  return { showFixed }
+  return isVisible
 }
