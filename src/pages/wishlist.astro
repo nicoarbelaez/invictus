@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { WishlistView } from '@/features/product/components'
+import { productRepository } from '@/features/product/repository'
+
+const products = await productRepository.getProducts()
+---
+
+<BaseLayout
+  title="Favoritos | Invictus Joyas"
+  description="Tus joyas favoritas guardadas en un solo lugar."
+>
+  <WishlistView products={products} client:load />
+</BaseLayout>
