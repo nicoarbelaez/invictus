@@ -1,0 +1,32 @@
+---
+import HeroCarousel from '@/components/landing/HeroCarousel'
+import { Button } from '@/components/ui/button'
+import IconWrapper from '@/components/IconWrapper.astro'
+---
+
+<header class="w-full overflow-hidden">
+  <!-- CAROUSEL FULL WIDTH -->
+  <HeroCarousel client:load />
+
+  <!-- CONTENT OVERLAY -->
+  <div class="relative z-10 mx-auto max-w-xl py-24 text-center">
+    <h1 class="text-3xl font-medium md:text-4xl">Invictus Joyas</h1>
+    <p class="text-muted-foreground mt-2 text-sm">La calidad que mereces</p>
+
+    <div class="mt-4 flex flex-wrap justify-center gap-3">
+      <a href="https://www.instagram.com/invictusjoyas/" target="_blank" rel="noopener noreferrer">
+        <Button>
+          <IconWrapper icon="mdi:instagram" />
+          <span>@invictusjoyas</span>
+        </Button>
+      </a>
+
+      <a href="https://www.tiktok.com/@invictusjoyas" target="_blank" rel="noopener noreferrer">
+        <Button variant="secondary">
+          <IconWrapper icon="ic:baseline-tiktok" />
+          <span>@invictusjoyas</span>
+        </Button>
+      </a>
+    </div>
+  </div>
+</header>

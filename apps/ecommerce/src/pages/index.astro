@@ -9,5 +9,7 @@ const products = await productRepository.getProducts()
 
 <BaseLayout>
   <Hero />
-  <ProductList products={products} client:load />
+  <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-8 pt-14 lg:px-12">
+    <ProductList products={products} client:load />
+  </div>
 </BaseLayout>
