@@ -32,7 +32,7 @@ export function ProductCard({
   const { handleShare, shareFeedback } = useShare({
     title: product.title,
     description: product.shortDescription ?? product.description,
-    shareUrl: shareUrl ?? product.href,
+    shareUrl: shareUrl ?? `/products/${product.slug}`,
     onShare,
   })
 

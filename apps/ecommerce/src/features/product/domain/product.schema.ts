@@ -1,36 +1,13 @@
 import { z } from 'zod'
 import { ReactNode } from 'react'
 
-export const ProductCategory = {
-  EARRINGS: 'earrings',
-  RINGS: 'rings',
-  NECKLACES: 'necklaces',
-  BRACELETS: 'bracelets',
-  CHAINS: 'chains',
-  CHARMS: 'charms',
-  ANKLETS: 'anklets',
-  PENDANTS: 'pendants',
-} as const
+export type ProductCategorySlug = string
 
-export type ProductCategorySlug = (typeof ProductCategory)[keyof typeof ProductCategory]
+export const ProductCategorySchema = z.string()
 
-export const ProductCategorySchema = z.enum(
-  Object.values(ProductCategory) as [ProductCategorySlug, ...ProductCategorySlug[]]
-)
-
-const CATEGORY_LABELS: Record<ProductCategorySlug, string> = {
-  earrings: 'Aretes',
-  rings: 'Anillos',
-  necklaces: 'Collares',
-  bracelets: 'Pulseras',
-  chains: 'Cadenas',
-  charms: 'Dijes',
-  anklets: 'Tobilleras',
-  pendants: 'Colgantes',
-}
-
-export function getCategoryLabel(category: ProductCategorySlug): string {
-  return CATEGORY_LABELS[category]
+export interface ProductCategoryInfo {
+  slug: ProductCategorySlug
+  label: string
 }
 
 export function computeFinalPrice(product: Pick<Product, 'price' | 'discount'>): number {
@@ -140,7 +117,6 @@ export const ProductSchema = z.object({
   description: z.string(),
   shortDescription: z.string().optional(),
 
-  href: z.string().optional(),
   images: z.array(ProductImageSchema).min(1),
 
   // Price = precio original (antes del descuento).
@@ -156,11 +132,9 @@ export const ProductSchema = z.object({
   variants: z.array(ProductVariantSchema).optional(),
 
   category: ProductCategorySchema.optional(),
+  categoryLabel: z.string().optional(),
   collection: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  rating: z.number().min(0).max(5).optional(),
-  reviewCount: z.number().int().nonnegative().optional(),
-  relatedProductIds: z.array(z.string()).optional(),
 })
 
 export type ProductImage = z.infer<typeof ProductImageSchema>

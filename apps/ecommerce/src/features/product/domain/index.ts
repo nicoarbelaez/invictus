@@ -1,5 +1,6 @@
 export {
   type ProductCategorySlug,
+  type ProductCategoryInfo,
   type ProductImage,
   type ProductMetal,
   type ProductGemstone,
@@ -13,9 +14,7 @@ export {
   type ProductCardCallbacks,
   type ProductCardStyleProps,
   type ProductCardProps,
-  ProductCategory,
   ProductCategorySchema,
-  getCategoryLabel,
   computeFinalPrice,
   ProductImageSchema,
   ProductMetalSchema,

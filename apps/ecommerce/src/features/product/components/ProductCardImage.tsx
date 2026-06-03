@@ -4,6 +4,7 @@ import { useProductCard } from '@/features/product/context'
 export function ProductCardImage() {
   const { product } = useProductCard()
   const { src, alt } = product.images[0]
+  const href = `/products/${product.slug}`
 
   const image = (
     <div className="overflow-hidden">
@@ -17,10 +18,8 @@ export function ProductCardImage() {
     </div>
   )
 
-  if (!product.href) return image
-
   return (
-    <a href={product.href} className="block">
+    <a href={href} className="block">
       {image}
     </a>
   )

@@ -9,7 +9,6 @@ import {
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
 import { ProductPageView } from '@/features/product/components/ProductPageView'
-import { getCategoryLabel } from '@/features/product/domain/product.schema'
 import { productRepository } from '@/features/product/repository'
 
 export async function getStaticPaths() {
@@ -21,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props
-const categoryLabel = product.category ? getCategoryLabel(product.category) : null
+const categoryLabel = product.categoryLabel ?? null
 const categoryHref = product.category ? `/category/${product.category}` : null
 ---
 

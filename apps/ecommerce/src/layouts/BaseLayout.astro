@@ -5,7 +5,6 @@ import { NavBar } from '@/components/global/NavBar'
 import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
 import { productRepository } from '@/features/product/repository'
-import { getCategoryLabel } from '@/features/product/domain'
 
 interface Props {
   title?: string
@@ -31,10 +30,10 @@ const {
   className,
 } = Astro.props
 
-const categorySlugs = await productRepository.getCategories()
-const navCategories = categorySlugs.map((slug) => ({
-  label: getCategoryLabel(slug),
-  href: `/category/${slug}`,
+const categories = await productRepository.getCategories()
+const navCategories = categories.map((c) => ({
+  label: c.label == '' ? c.slug : c.label,
+  href: `/category/${c.slug}`,
 }))
 ---
 
@@ -56,7 +55,7 @@ const navCategories = categorySlugs.map((slug) => ({
     <NavBar categories={navCategories} client:load />
     <Toaster position="bottom-right" richColors client:load />
 
-    <div class="mx-auto flex min-h-screen">
+    <div class="flex min-h-dvh flex-col">
       <main class={cn('grow', className)}>
         <slot />
       </main>
