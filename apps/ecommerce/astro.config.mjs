@@ -16,16 +16,9 @@ export default defineConfig({
         context: 'server',
         access: 'secret',
       }),
-
-      NODE_ENV: envField.enum({
-        context: 'server',
-        access: 'public',
-        values: ['development', 'production'],
-        default: 'development',
-      }),
     },
 
-    validateSecrets: true,
+    validateSecrets: false,
   },
   vite: {
     plugins: [tailwindcss()],
