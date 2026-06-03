@@ -9,7 +9,12 @@
     "start": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,astro,js,mjs,json,md,css}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:up": "docker-compose -f infra/docker-compose.yml up -d",
+    "db:down": "docker-compose -f infra/docker-compose.yml down",
+    "db:reset": "docker-compose -f infra/docker-compose.yml down -v && docker-compose -f infra/docker-compose.yml up -d",
+    "db:logs": "docker-compose -f infra/docker-compose.yml logs -f postgres",
+    "db:ps": "docker-compose -f infra/docker-compose.yml ps"
   },
   "devDependencies": {
     "husky": "^9.1.7",
