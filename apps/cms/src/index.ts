@@ -84,10 +84,14 @@ async function triggerVercelRedeploy(strapi: Core.Strapi): Promise<void> {
       return
     }
 
-    const listData = (await listRes.json()) as { deployments?: { uid: string }[] }
-    const deploymentId = listData.deployments?.[0]?.uid
+    const listData = (await listRes.json()) as {
+      deployments?: { uid: string; name: string }[]
+    }
+    const latest = listData.deployments?.[0]
+    const deploymentId = latest?.uid
+    const projectName = latest?.name
 
-    if (!deploymentId) {
+    if (!deploymentId || !projectName) {
       strapi.log.error('[vercel] No production deployments found for the project')
       return
     }
@@ -100,7 +104,7 @@ async function triggerVercelRedeploy(strapi: Core.Strapi): Promise<void> {
         'Content-Type': 'application/json',
         accept: 'application/json',
       },
-      body: JSON.stringify({ deploymentId, target: 'production' }),
+      body: JSON.stringify({ deploymentId, name: projectName, target: 'production' }),
     })
 
     if (!redeployRes.ok) {
