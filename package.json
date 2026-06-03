@@ -7,8 +7,11 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "start": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint --filter=ecommerce",
+    "typecheck": "turbo run typecheck --filter=ecommerce",
+    "check": "turbo run check --filter=ecommerce",
     "format": "prettier --write \"**/*.{ts,tsx,astro,js,mjs,json,md,css}\"",
+    "cms:types": "pnpm --filter cms strapi ts:generate-types && node scripts/generate-cms-types.js",
     "prepare": "husky",
     "db:up": "docker-compose -f infra/docker-compose.yml up -d",
     "db:down": "docker-compose -f infra/docker-compose.yml down",
@@ -23,6 +26,12 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.9.16"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^19.2.16",
+      "@types/react-dom": "^19.2.3"
+    }
   },
   "lint-staged": {
     "apps/ecommerce/src/**/*.{astro,ts,tsx,js,mjs}": [

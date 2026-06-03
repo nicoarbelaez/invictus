@@ -2,11 +2,45 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "cms:types"],
       "outputs": ["dist/**", ".astro/**"]
     },
+    "cms:types": {
+      "cache": true,
+      "inputs": [
+        "src/api/**/schema.json",
+        "src/components/**/*.json"
+      ],
+      "outputs": ["types/generated/**"]
+    },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "inputs": [
+        "src/**/*.{ts,tsx,astro,js,mjs}",
+        "eslint.config.{mjs,js,ts}",
+        "package.json"
+      ]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.{ts,tsx,astro}",
+        "tsconfig.json",
+        "astro.config.{mjs,ts,js}",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "check": {
+      "dependsOn": ["lint", "typecheck"],
+      "inputs": [
+        "src/**/*.{ts,tsx,astro,js,mjs}",
+        "tsconfig.json",
+        "astro.config.{mjs,ts,js}",
+        "eslint.config.{mjs,js,ts}",
+        "package.json"
+      ],
+      "outputs": []
     },
     "dev": {
       "cache": false,
