@@ -120,7 +120,22 @@ async function triggerVercelRedeploy(strapi: Core.Strapi): Promise<void> {
   }
 }
 
+// ── Cooldown — in-memory, resets on server restart
+let lastRedeployAt = 0
+
 async function triggerRedeploy(strapi: Core.Strapi): Promise<void> {
+  const cooldownMs = parseInt(process.env.DEPLOY_COOLDOWN_MS ?? '60000', 10)
+  const now = Date.now()
+  const elapsed = now - lastRedeployAt
+
+  if (lastRedeployAt > 0 && elapsed < cooldownMs) {
+    const remainingSec = Math.ceil((cooldownMs - elapsed) / 1000)
+    strapi.log.info(`[deploy] Cooldown activo — redeploy omitido (faltan ${remainingSec}s)`)
+    return
+  }
+
+  lastRedeployAt = now
+
   const provider = (process.env.DEPLOY_PROVIDER ?? 'dokploy') as DeployProvider
 
   switch (provider) {
