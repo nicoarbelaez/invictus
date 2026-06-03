@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_componentes_carrusel_de_banners",
+  "info": {
+    "displayName": "Carrusel de Banner",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "alt": {
+      "type": "text",
+      "required": true
+    },
+    "link": {
+      "type": "string"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

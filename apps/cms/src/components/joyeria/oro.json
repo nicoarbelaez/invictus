@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_joyeria_oros",
+  "info": {
+    "displayName": "Oro"
+  },
+  "options": {},
+  "attributes": {
+    "Tipo": {
+      "type": "enumeration",
+      "required": true,
+      "enum": ["italiano", "nacional", "importado"]
+    },
+    "Kilates": {
+      "type": "integer",
+      "required": false,
+      "unique": false
+    },
+    "Color": {
+      "type": "enumeration",
+      "enum": ["amarillo", "blanco", "rosa"]
+    },
+    "PesoGramos": {
+      "type": "decimal",
+      "min": 0
+    }
+  }
+}

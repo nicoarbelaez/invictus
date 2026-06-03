@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "productos",
+  "info": {
+    "singularName": "producto",
+    "pluralName": "productos",
+    "displayName": "Producto"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Titulo": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120,
+      "required": true
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Titulo",
+      "required": true,
+      "minLength": 3,
+      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "Descripcion": {
+      "type": "text",
+      "required": true
+    },
+    "DescripcionCorta": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "Precio": {
+      "type": "biginteger",
+      "required": true,
+      "min": "0"
+    },
+    "Descuento": {
+      "type": "decimal",
+      "min": 0,
+      "max": 1
+    },
+    "Imagenes": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Stock": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "Categorias": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::categoria.categoria",
+      "mappedBy": "Producto"
+    },
+    "Oro": {
+      "type": "component",
+      "component": "joyeria.oro",
+      "repeatable": false
+    },
+    "Medidas": {
+      "type": "component",
+      "component": "joyeria.medidas",
+      "repeatable": false
+    },
+    "Tags": {
+      "type": "json"
+    },
+    "Activo": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  }
+}

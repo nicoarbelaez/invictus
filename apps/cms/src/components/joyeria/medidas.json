@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_joyeria_medidas",
+  "info": {
+    "displayName": "Medida"
+  },
+  "options": {},
+  "attributes": {
+    "Tipo": {
+      "type": "enumeration",
+      "enum": [
+        "cadena",
+        "anillo",
+        "arete",
+        "dije"
+      ]
+    },
+    "LargoCm": {
+      "type": "decimal",
+      "min": 0
+    },
+    "DiametroMm": {
+      "type": "decimal",
+      "min": 0
+    }
+  }
+}
