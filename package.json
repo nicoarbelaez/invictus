@@ -5,8 +5,10 @@
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "start": "turbo run dev",
+    "dev": "turbo run dev --filter=ecommerce --filter=cms",
+    "dev:web": "pnpm --filter ecommerce dev -- --port 4321 --host",
+    "dev:cms": "pnpm --filter cms develop",
+    "start": "pnpm dev",
     "lint": "turbo run lint --filter=ecommerce",
     "typecheck": "turbo run typecheck --filter=ecommerce",
     "check": "turbo run check --filter=ecommerce",
