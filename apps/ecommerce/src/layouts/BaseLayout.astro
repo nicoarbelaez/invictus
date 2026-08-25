@@ -52,8 +52,8 @@ const navCategories = categories.map((c) => ({
   </head>
 
   <body class="bg-background text-foreground">
-    <NavBar categories={navCategories} client:load />
-    <Toaster position="bottom-right" richColors client:load />
+    <NavBar categories={navCategories} client:idle={{ timeout: 200 }} />
+    <Toaster position="bottom-right" richColors client:idle />
 
     <div class="flex min-h-dvh flex-col">
       <main class={cn('grow', className)}>

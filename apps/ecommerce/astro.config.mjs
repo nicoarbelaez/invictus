@@ -15,6 +15,8 @@ export default defineConfig({
       CMS_TOKEN: envField.string({
         context: 'server',
         access: 'secret',
+        optional: true,
+        default: '',
       }),
     },
 
@@ -22,7 +24,33 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'zustand'],
+    },
+    build: {
+      cssMinify: true,
+      sourcemap: false,
+      target: 'es2022',
+    },
   },
-  site: 'https://invictusjoyas.com',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto',
+    assets: '_astro',
+  },
+  image: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+  },
+  // Live host. Draft later: https://invictusjoyas.com
+  site: 'https://invictusjoyas.vercel.app',
   integrations: [sitemap(), react(), mdx()],
 })

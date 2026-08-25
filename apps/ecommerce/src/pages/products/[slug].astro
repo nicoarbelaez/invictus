@@ -57,6 +57,6 @@ const categoryHref = product.category ? `/category/${product.category}` : null
       </BreadcrumbList>
     </Breadcrumb>
 
-    <ProductPageView product={product} client:load />
+    <ProductPageView product={product} client:idle={{ timeout: 300 }} />
   </div>
 </BaseLayout>

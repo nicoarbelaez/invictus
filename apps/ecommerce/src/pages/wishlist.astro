@@ -10,5 +10,5 @@ const products = await productRepository.getProducts()
   title="Favoritos | Invictus Joyas"
   description="Tus joyas favoritas guardadas en un solo lugar."
 >
-  <WishlistView products={products} client:load />
+  <WishlistView products={products} client:idle={{ timeout: 200 }} />
 </BaseLayout>

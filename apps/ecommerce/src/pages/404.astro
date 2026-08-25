@@ -58,5 +58,5 @@ const products = await productRepository.getProducts()
 
   <Separator />
 
-  <ProductList products={products} client:load />
+  <ProductList products={products} client:visible={{ rootMargin: '100px' }} />
 </BaseLayout>

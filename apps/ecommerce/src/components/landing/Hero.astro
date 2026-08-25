@@ -6,7 +6,7 @@ import IconWrapper from '@/components/IconWrapper.astro'
 
 <header class="w-full overflow-hidden">
   <!-- CAROUSEL FULL WIDTH -->
-  <HeroCarousel client:load />
+  <HeroCarousel client:visible={{ rootMargin: '200px' }} />
 
   <!-- CONTENT OVERLAY -->
   <div class="relative z-10 mx-auto max-w-xl py-24 text-center">

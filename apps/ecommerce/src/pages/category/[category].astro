@@ -53,6 +53,6 @@ const { products, label } = Astro.props
       </p>
     </div>
 
-    <ProductList products={products} client:load />
+    <ProductList products={products} client:visible={{ rootMargin: '100px' }} />
   </div>
 </BaseLayout>

@@ -1,4 +1,5 @@
-export const SITE_URL = 'https://invictusjoyas.com'
+/** Live storefront host. Draft later: https://invictusjoyas.com */
+export const SITE_URL = 'https://invictusjoyas.vercel.app'
 export const SITE_NAME = 'Invictus Joyas'
 export const SITE_LOGO_URL =
   'https://res.cloudinary.com/dv8ipi5yp/image/upload/f_auto,q_auto/logo_xiedet.png'
