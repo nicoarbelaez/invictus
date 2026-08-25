@@ -1,22 +1,31 @@
-# --- Turborepo ---
+# --- Turborepo / caches ---
 .turbo/
 .vercel/
 .output/
+*.tsbuildinfo
 .tsbuildinfo
 
-# --- Dependencies & Package Managers ---
+# --- Dependencies & package managers ---
 node_modules/
-pnpm-lock.yaml.bak
 .pnpm-store/
+pnpm-lock.yaml.bak
+yarn-error.log*
+package-lock.json
+npm-shrinkwrap.json
 
-# --- Environment Secrets ---
-*.env
-*.env.local
-*.env.*.local
+# --- Environment & secrets ---
 .env
-.env.production
+.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
 
-# --- Astro App ---
+# --- Astro / frontend build ---
 apps/**/dist/
 apps/**/.astro/
 apps/**/.cache/
@@ -24,33 +33,83 @@ dist/
 .astro/
 .cache/
 
-# --- Strapi CMS (Future-proofing) ---
+# --- Strapi CMS ---
 apps/**/build/
 apps/**/.tmp/
 apps/**/.cache/
 apps/**/.strapi/
+apps/**/.strapi-updater.json
+apps/**/.strapi-cloud.json
+apps/**/exports/
 build/
 .tmp/
 .strapi/
-# Local SQLite database files
+# Local media (keep folder via .gitkeep)
+apps/cms/public/uploads/*
+!apps/cms/public/uploads/.gitkeep
 *.sqlite
 *.sqlite3
 apps/**/*.sqlite
 apps/**/*.sqlite3
 
-# --- Logs & Debugging ---
+# --- Logs & debugging ---
 *.log
+logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .eslintcache
 
-# --- OS & IDE settings ---
+# --- Tests / Playwright ---
+coverage/
+.nyc_output/
+.playwright-cli/
+playwright-report/
+test-results/
+blob-report/
+
+# --- Large binaries / installers (never commit) ---
+*.exe
+*.msi
+*.msm
+*.msp
+*.dmg
+*.iso
+*.img
+*.vmdk
+*.ova
+*.ovf
+*.apk
+*.ipa
+*.deb
+*.rpm
+*.AppImage
+*.7z
+*.rar
+# Large archives — keep small project zips out of the repo by default
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+
+# --- OS & IDE ---
 .DS_Store
 Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 .vscode/
 .idea/
 *.code-workspace
 *.swp
+*.swo
 *.tmp
+*~
+
+# --- Local / agent tooling artifacts ---
+.cursor/
+!.cursor/rules/
+!.cursor/commands/
+agent-transcripts/
+*.canvas.tsx.bak
