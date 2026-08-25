@@ -3,11 +3,16 @@ services:
     build:
       context: ../apps/cms
       dockerfile: Dockerfile
-    restart: always
+      target: production
+    image: invictus-cms:latest
+    restart: unless-stopped
     environment:
-      NODE_ENV: ${NODE_ENV}
-      HOST: ${HOST}
-      PORT: ${PORT}
+      NODE_ENV: ${NODE_ENV:-production}
+      HOST: ${HOST:-0.0.0.0}
+      PORT: ${PORT:-1337}
+      # Live CMS host (Cloudflare: arbelaeznicolas.dev). Draft later: cms.invictusjoyas.com
+      PUBLIC_URL: ${PUBLIC_URL:-https://cmsinvictusjoyas.arbelaeznicolas.dev}
+      IS_PROXIED: ${IS_PROXIED:-true}
       DATABASE_CLIENT: postgres
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
@@ -15,6 +20,8 @@ services:
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_SSL: ${DATABASE_SSL}
+      # Live storefront + local. Draft later: ,https://invictusjoyas.com,https://www.invictusjoyas.com
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://invictusjoyas.vercel.app,http://localhost:4321,http://127.0.0.1:4321}
       APP_KEYS: ${APP_KEYS}
       API_TOKEN_SALT: ${API_TOKEN_SALT}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
@@ -24,7 +31,8 @@ services:
       CLOUDINARY_NAME: ${CLOUDINARY_NAME}
       CLOUDINARY_KEY: ${CLOUDINARY_KEY}
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
-      DEPLOY_PROVIDER: ${DEPLOY_PROVIDER}
+      # Ecommerce is on Vercel for now — publish hooks should redeploy Vercel, not this compose
+      DEPLOY_PROVIDER: ${DEPLOY_PROVIDER:-vercel}
       DEPLOY_COOLDOWN_MS: ${DEPLOY_COOLDOWN_MS:-60000}
       DOKPLOY_REDEPLOY_URL: ${DOKPLOY_REDEPLOY_URL}
       DOKPLOY_COMPOSE_ID: ${DOKPLOY_COMPOSE_ID}
@@ -32,21 +40,35 @@ services:
       DOKPLOY_DESCRIPTION: ${DOKPLOY_DESCRIPTION}
       DOKPLOY_API_KEY: ${DOKPLOY_API_KEY}
       VERCEL_TOKEN: ${VERCEL_TOKEN}
-      VERCEL_PROJECT_ID: ${VERCEL_PROJECT_ID}
+      VERCEL_PROJECT_ID: ${VERCEL_PROJECT_ID:-prj_E2lW8nIleaEd7lUY5VPCssegkF4e}
+      STRAPI_MCP_ENABLED: ${STRAPI_MCP_ENABLED:-false}
     expose:
-      - 1337
-    ports:
-      - "${PORT:-1337}:1337"
+      - "1337"
+    # Uploads path MUST match Dockerfile WORKDIR (/opt/app), not /app
     volumes:
-      - strapi_uploads:/app/public/uploads
+      - strapi_uploads:/opt/app/public/uploads
     networks:
       - invictus-network-prod
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:1337/_health', (r) => { process.exit(r.statusCode === 204 ? 0 : 1) })"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:1337/_health', (r) => { process.exit(r.statusCode === 204 ? 0 : 1) })",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 90s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1536M
+        reservations:
+          cpus: "0.25"
+          memory: 512M
 
 volumes:
   strapi_uploads:

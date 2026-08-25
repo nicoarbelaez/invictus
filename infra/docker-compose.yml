@@ -8,8 +8,9 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-strapi123}
       POSTGRES_INITDB_ARGS: --encoding=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8
+    # Host 5434: 5432/5433 often taken by other local Postgres stacks
     ports:
-      - "${DATABASE_PORT:-5432}:5432"
+      - "${DATABASE_PORT:-5434}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

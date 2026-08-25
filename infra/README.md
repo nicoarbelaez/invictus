@@ -237,14 +237,32 @@ taskkill /PID <PID> /F
 
 ## Seguridad Checklist (Producción)
 
-- [ ] Cambiar todas las claves en `cms/.env`
+- [ ] Cambiar todas las claves en `cms/.env` / Dokploy env
 - [ ] Usar contraseña fuerte para PostgreSQL
 - [ ] Habilitar `DATABASE_SSL=true`
-- [ ] Usar reverse proxy con SSL/TLS
+- [ ] Definir `CORS_ORIGIN` (dominios del storefront, sin `*`)
+- [ ] Usar reverse proxy / Traefik con SSL/TLS (Dokploy)
+- [ ] No publicar el puerto 1337 en la interfaz pública (solo red Docker)
 - [ ] Configurar firewall (solo puertos necesarios)
 - [ ] Monitorear logs y métricas
 - [ ] Configurar backups automáticos de BD
 - [ ] Actualizar regularmente imágenes Docker
+
+## Dokploy
+
+Compose path: `./infra/docker-compose.prod.yml`  
+CMS público (live): `https://cmsinvictusjoyas.arbelaeznicolas.dev` (zona Cloudflare `arbelaeznicolas.dev`)
+
+Storefront (live): `https://invictusjoyas.vercel.app`
+
+Draft (sin zona DNS aún): `invictusjoyas.com` / `www` / `cms.invictusjoyas.com`
+
+CORS por defecto en compose (solo hosts que resuelven):
+
+```bash
+CORS_ORIGIN=https://invictusjoyas.vercel.app,http://localhost:4321,http://127.0.0.1:4321
+# Cuando existan: ,https://invictusjoyas.com,https://www.invictusjoyas.com
+```
 
 ---
 
