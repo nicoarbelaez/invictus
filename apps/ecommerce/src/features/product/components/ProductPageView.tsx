@@ -18,7 +18,7 @@ export function ProductPageView({ product }: ProductPageViewProps) {
   const { handleShare, shareFeedback } = useShare({
     title: product.title,
     description: product.shortDescription ?? product.description,
-    shareUrl: typeof window !== 'undefined' ? window.location.href : product.href,
+    shareUrl: typeof window !== 'undefined' ? window.location.href : `/products/${product.slug}`,
   })
 
   const { onAddToCart, onBuyNow } = useProductActions(product)

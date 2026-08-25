@@ -1,10 +1,4 @@
 import qs from 'qs'
-import {
-  StrapiError,
-  StrapiConnectionError,
-  isStrapiError,
-  isStrapiErrorOf,
-} from 'strapi-typed-client'
 import { CMS_URL, CMS_TOKEN } from 'astro:env/server'
 import type {
   StrapiListResponse,
@@ -13,6 +7,7 @@ import type {
   Categoria,
   Global,
 } from '@/lib/cms'
+import { StrapiError, StrapiConnectionError, isStrapiError, isStrapiErrorOf } from './errors'
 
 export { StrapiError, StrapiConnectionError, isStrapiError, isStrapiErrorOf }
 
@@ -52,7 +47,7 @@ async function strapiRequest<T>(path: string, params?: QueryParams): Promise<T> 
       signal: controller.signal,
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${CMS_TOKEN}`,
+        ...(CMS_TOKEN ? { Authorization: `Bearer ${CMS_TOKEN}` } : {}),
       },
     })
   } catch (cause) {

@@ -76,66 +76,91 @@ function toDomain(entity: Producto): Product {
 
 // ─── Repository
 
+/** In local dev without CMS_TOKEN, fail soft so the UI still boots. */
+async function safeCms<T>(run: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await run()
+  } catch (err) {
+    if (import.meta.env.DEV) {
+      console.warn('[cms]', err instanceof Error ? err.message : err)
+      return fallback
+    }
+    throw err
+  }
+}
+
 export class CmsProductRepository implements ProductRepository {
   async getProducts(): Promise<Product[]> {
-    const items = await cms.productos.find({
-      populate: PRODUCT_POPULATE,
-      filters: ONLY_PUBLISHED,
-      sort: 'Titulo:asc',
-      pagination: { pageSize: 100 },
-    })
-    return items.map(toDomain)
+    return safeCms(async () => {
+      const items = await cms.productos.find({
+        populate: PRODUCT_POPULATE,
+        filters: ONLY_PUBLISHED,
+        sort: 'Titulo:asc',
+        pagination: { pageSize: 100 },
+      })
+      return items.map(toDomain)
+    }, [])
   }
 
   async getProductBySlug(slug: string): Promise<Product | null> {
-    const items = await cms.productos.find({
-      populate: PRODUCT_POPULATE,
-      filters: { Slug: { $eq: slug }, ...ONLY_PUBLISHED },
-      pagination: { pageSize: 1 },
-    })
-    const entity = items[0]
-    return entity ? toDomain(entity) : null
+    return safeCms(async () => {
+      const items = await cms.productos.find({
+        populate: PRODUCT_POPULATE,
+        filters: { Slug: { $eq: slug }, ...ONLY_PUBLISHED },
+        pagination: { pageSize: 1 },
+      })
+      const entity = items[0]
+      return entity ? toDomain(entity) : null
+    }, null)
   }
 
   async getProductsByCategory(category: ProductCategorySlug): Promise<Product[]> {
-    const items = await cms.productos.find({
-      populate: PRODUCT_POPULATE,
-      filters: { Categorias: { Slug: { $eq: category } }, ...ONLY_PUBLISHED },
-      sort: 'Titulo:asc',
-      pagination: { pageSize: 100 },
-    })
-    return items.map(toDomain)
+    return safeCms(async () => {
+      const items = await cms.productos.find({
+        populate: PRODUCT_POPULATE,
+        filters: { Categorias: { Slug: { $eq: category } }, ...ONLY_PUBLISHED },
+        sort: 'Titulo:asc',
+        pagination: { pageSize: 100 },
+      })
+      return items.map(toDomain)
+    }, [])
   }
 
   async getCategories(): Promise<ProductCategoryInfo[]> {
-    const items = await cms.categorias.find({ fields: ['Slug', 'Label'] })
-    return items.map((c) => ({ slug: c.Slug ?? '', label: c.Label ?? '' }))
+    return safeCms(async () => {
+      const items = await cms.categorias.find({ fields: ['Slug', 'Label'] })
+      return items.map((c) => ({ slug: c.Slug ?? '', label: c.Label ?? '' }))
+    }, [])
   }
 
   async getProductsByIds(ids: string[]): Promise<Product[]> {
     if (ids.length === 0) return []
-    const items = await cms.productos.find({
-      populate: PRODUCT_POPULATE,
-      filters: { documentId: { $in: ids }, ...ONLY_PUBLISHED },
-      pagination: { pageSize: ids.length },
-    })
-    return items.map(toDomain)
+    return safeCms(async () => {
+      const items = await cms.productos.find({
+        populate: PRODUCT_POPULATE,
+        filters: { documentId: { $in: ids }, ...ONLY_PUBLISHED },
+        pagination: { pageSize: ids.length },
+      })
+      return items.map(toDomain)
+    }, [])
   }
 
   async searchProducts(query: string): Promise<Product[]> {
-    const items = await cms.productos.find({
-      populate: PRODUCT_POPULATE,
-      filters: {
-        $or: [
-          { Titulo: { $containsi: query } },
-          { Descripcion: { $containsi: query } },
-          { DescripcionCorta: { $containsi: query } },
-        ],
-        ...ONLY_PUBLISHED,
-      },
-      pagination: { pageSize: 100 },
-    })
-    return items.map(toDomain)
+    return safeCms(async () => {
+      const items = await cms.productos.find({
+        populate: PRODUCT_POPULATE,
+        filters: {
+          $or: [
+            { Titulo: { $containsi: query } },
+            { Descripcion: { $containsi: query } },
+            { DescripcionCorta: { $containsi: query } },
+          ],
+          ...ONLY_PUBLISHED,
+        },
+        pagination: { pageSize: 100 },
+      })
+      return items.map(toDomain)
+    }, [])
   }
 }
 
