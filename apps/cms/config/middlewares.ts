@@ -1,6 +1,27 @@
 import type { Core } from '@strapi/strapi'
 
-const config: Core.Config.Middlewares = [
+/**
+ * Browser origins allowed to call the Strapi API.
+ * SSG on Vercel fetches CMS server-side (no CORS), but admin plugins,
+ * previews, and future client calls need these origins.
+ *
+ * Override with CORS_ORIGIN (comma-separated) in Dokploy / .env.
+ *
+ * Live (DNS OK):
+ * - Storefront: https://invictusjoyas.vercel.app
+ * - Local: localhost:4321
+ *
+ * Draft (no zone / NXDOMAIN yet — add via CORS_ORIGIN when ready):
+ * - https://invictusjoyas.com
+ * - https://www.invictusjoyas.com
+ */
+const defaultCorsOrigins = [
+  'http://localhost:4321',
+  'http://127.0.0.1:4321',
+  'https://invictusjoyas.vercel.app',
+]
+
+const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Middlewares => [
   'strapi::logger',
   'strapi::errors',
   {
@@ -23,7 +44,21 @@ const config: Core.Config.Middlewares = [
       },
     },
   },
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: env.array('CORS_ORIGIN', defaultCorsOrigins),
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+      headers: [
+        'Content-Type',
+        'Authorization',
+        'Origin',
+        'Accept',
+        'X-Requested-With',
+      ],
+      keepHeaderOnError: true,
+    },
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

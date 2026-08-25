@@ -2,8 +2,11 @@ node_modules
 npm-debug.log
 pnpm-debug.log
 yarn-error.log
+yarn.lock
+pnpm-lock.yaml
 .git
 .gitignore
+.env
 .env.local
 .env.*.local
 dist
@@ -12,9 +15,12 @@ coverage
 .turbo
 .next
 out
-*.lock
 .DS_Store
 .vscode
 .idea
 .pytest_cache
 __pycache__
+*.md
+.tmp
+.cache
+src/admin/vite.config.example.ts

@@ -60,7 +60,7 @@ export interface JoyeriaOro extends Struct.ComponentSchema {
 }
 
 declare module '@strapi/strapi' {
-  export module Public {
+  export namespace Public {
     export interface ComponentSchemas {
       'componentes.carrusel-de-banner': ComponentesCarruselDeBanner
       'joyeria.medidas': JoyeriaMedidas

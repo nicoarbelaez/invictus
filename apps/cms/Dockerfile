@@ -1,28 +1,62 @@
-FROM node:20-alpine
+# Production Dockerfile for Strapi 5 (Dokploy)
+# Docs: https://docs.strapi.io/cms/installation/docker
+# Critical: do NOT set NODE_ENV=production before installing deps (admin build needs devDependencies).
 
-RUN apk add --no-cache libc6-compat dumb-init
+# ── Build ────────────────────────────────────────────────────────────────────
+FROM node:22-alpine AS build
 
-# Non-root user for security
-RUN addgroup -g 1001 -S strapi && adduser -S strapi -u 1001 -G strapi
+RUN apk add --no-cache \
+  build-base \
+  gcc \
+  autoconf \
+  automake \
+  zlib-dev \
+  libpng-dev \
+  vips-dev \
+  git \
+  python3
 
-WORKDIR /app
+WORKDIR /opt/app
 
-# Install dependencies
-COPY --chown=strapi:strapi package.json ./
-RUN npm install
+COPY package.json ./
+COPY package-lock.json* ./
 
-# Copy source files (required: strapi start runs tsc at boot to resolve distDir)
-COPY --chown=strapi:strapi tsconfig.json ./
-COPY --chown=strapi:strapi src ./src
-COPY --chown=strapi:strapi config ./config
-COPY --chown=strapi:strapi database ./database
-COPY --chown=strapi:strapi public ./public
+RUN --mount=type=cache,target=/root/.npm \
+  npm config set fetch-retry-maxtimeout 600000 -g \
+  && if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
-# Build admin panel + compile TypeScript
-RUN NODE_ENV=production npm run build
+COPY tsconfig.json ./
+COPY src ./src
+COPY config ./config
+COPY public ./public
 
-# Fix uploads dir permissions
-RUN mkdir -p public/uploads && chown -R strapi:strapi public/uploads
+# Ensure uploads dir exists even if gitignored empty
+RUN mkdir -p public/uploads
+
+ENV NODE_ENV=production
+RUN npm run build
+
+# ── Runtime ──────────────────────────────────────────────────────────────────
+FROM node:22-alpine AS production
+
+RUN apk add --no-cache vips-dev dumb-init \
+  && addgroup -g 1001 -S strapi \
+  && adduser -S strapi -u 1001 -G strapi
+
+WORKDIR /opt/app
+
+ENV NODE_ENV=production \
+  HOST=0.0.0.0 \
+  PORT=1337 \
+  IS_PROXIED=true \
+  PATH=/opt/app/node_modules/.bin:$PATH
+
+# Full app from build (src + dist/build needed by `strapi start`)
+COPY --from=build --chown=strapi:strapi /opt/app ./
+
+RUN npm prune --omit=dev \
+  && mkdir -p public/uploads \
+  && chown -R strapi:strapi /opt/app
 
 USER strapi
 
