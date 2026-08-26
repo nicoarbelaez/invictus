@@ -42,6 +42,7 @@ services:
       VERCEL_TOKEN: ${VERCEL_TOKEN}
       VERCEL_PROJECT_ID: ${VERCEL_PROJECT_ID:-prj_E2lW8nIleaEd7lUY5VPCssegkF4e}
       STRAPI_MCP_ENABLED: ${STRAPI_MCP_ENABLED:-false}
+      STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE: ${STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE:-es}
     expose:
       - "1337"
     # Uploads path MUST match Dockerfile WORKDIR (/opt/app), not /app
