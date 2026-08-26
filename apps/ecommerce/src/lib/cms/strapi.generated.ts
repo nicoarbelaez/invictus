@@ -59,13 +59,29 @@ export interface JoyeriaMedidas {
   DiametroMm: string | null
 }
 
+export interface ComponentesEnlace {
+  id: number
+  Url: string
+  AbrirEnNuevaPestana: boolean
+}
+
+export interface ComponentesMarca {
+  id: number
+  Imagotipo: StrapiMedia
+  Isotipo: StrapiMedia
+}
+
+export interface ComponentesMetadatos {
+  id: number
+  TituloCorto: string
+  TituloLargo: string
+  Descripcion: string
+}
+
 export interface ComponentesCarruselDeBanner {
   id: number
-  image: StrapiMedia
-  alt: string
-  link: string | null
-  openInNewTab: boolean
-  position: number
+  Imagen: StrapiMedia
+  Enlace: ComponentesEnlace | null
 }
 
 // ─── Response wrappers
@@ -104,7 +120,10 @@ export interface Categoria {
 export interface Global {
   id: number
   documentId: string
-
+  AnnouncementBar: string | null
+  CarruselBanner: ComponentesCarruselDeBanner[] | null
+  Marca: ComponentesMarca | null
+  Metadatos: ComponentesMetadatos | null
   createdAt: string
   updatedAt: string
   publishedAt: string | null
@@ -114,6 +133,7 @@ export interface Global {
 export interface Producto {
   id: number
   documentId: string
+  Activo: boolean | null
   Categorias: Categoria[] | null
   Descripcion: string | null
   DescripcionCorta: string | null

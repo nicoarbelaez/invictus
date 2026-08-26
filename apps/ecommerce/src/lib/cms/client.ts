@@ -134,5 +134,7 @@ class SingleType<T> {
 export const cms = {
   productos: new Collection<Producto>('productos'),
   categorias: new Collection<Categoria>('categorias'),
-  globals: new SingleType<Global>('globals'),
+  // Single types use singular API ID: GET /api/global (not /api/globals).
+  // https://docs.strapi.io/cms/api/rest#endpoints
+  global: new SingleType<Global>('global'),
 } as const
