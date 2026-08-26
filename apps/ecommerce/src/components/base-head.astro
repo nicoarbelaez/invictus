@@ -2,13 +2,13 @@
 import '../styles/global.css'
 import {
   SITE_URL,
-  SITE_NAME,
   PHONE,
   WHATSAPP_NUMBER,
   DEFAULT_CITY,
   DEFAULT_REGION,
   DEFAULT_COUNTRY,
 } from '@/config/site'
+import type { SiteSettings } from '@/lib/cms'
 
 interface Props {
   title?: string
@@ -23,6 +23,9 @@ interface Props {
   city?: string
   category?: string
   productName?: string
+
+  /** From CMS Global (`getSiteSettings`) */
+  site: SiteSettings
 }
 
 const {
@@ -39,7 +42,10 @@ const {
   city = DEFAULT_CITY,
   category,
   productName,
+  site,
 } = Astro.props
+
+const SITE_NAME = site.siteName
 
 /* -------------------------------------------------------------------------- */
 /* Utils */
@@ -72,7 +78,7 @@ function buildTitle() {
   )
 
   if (!productName && !category) {
-    return `${SITE_NAME} | Joyería en Oro 18K en Cali, Colombia`
+    return site.titleLong
   }
 
   return parts.join(' | ')
@@ -84,14 +90,16 @@ function buildDescription() {
   }
 
   if (productName) {
+    // TODO: CMS-driven product meta description
     return `${productName} en Oro 18K garantizado. Compra online con envío nacional y garantía de por vida en ${SITE_NAME}.`
   }
 
   if (category) {
+    // TODO: CMS-driven category meta description
     return `${category} en Oro 18K garantizado en ${city}. Diseños exclusivos, fabricación nacional y envíos a toda Colombia.`
   }
 
-  return `Joyería en Oro 18K en ${city}, Colombia. Cadenas, dijes, aretes, rosarios y joyas personalizadas con garantía de por vida y envíos nacionales.`
+  return site.description
 }
 
 function buildKeywords() {
@@ -145,7 +153,7 @@ const schemaOrg = JSON.stringify({
 
       image: image,
 
-      logo: `${SITE_URL}/logo.png`,
+      logo: site.logoUrl,
 
       telephone: PHONE,
 
@@ -260,7 +268,7 @@ const schemaOrg = JSON.stringify({
 
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/logo.png`,
+        url: site.logoUrl,
       },
 
       sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`, 'https://www.instagram.com/invictusjoyas'],
@@ -377,7 +385,7 @@ const schemaOrg = JSON.stringify({
 
 <meta property="og:image:height" content="630" />
 
-<meta property="og:image:alt" content={`${SITE_NAME} – Joyería en Oro 18K en Cali, Colombia`} />
+<meta property="og:image:alt" content={site.titleLong} />
 
 <meta property="og:locale" content="es_CO" />
 

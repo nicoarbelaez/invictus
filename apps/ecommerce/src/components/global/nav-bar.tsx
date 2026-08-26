@@ -5,17 +5,19 @@ import { NavbarMotion, NavDesktop, NavMobile, type NavCategory } from '@/compone
 
 interface NavBarProps {
   categories: NavCategory[]
+  siteName: string
+  logoUrl: string
 }
 
-export function NavBar({ categories }: NavBarProps) {
+export function NavBar({ categories, siteName, logoUrl }: NavBarProps) {
   return (
     <>
       <NavbarMotion className="hidden lg:block">
-        <NavDesktop categories={categories} />
+        <NavDesktop categories={categories} siteName={siteName} logoUrl={logoUrl} />
       </NavbarMotion>
 
       <NavbarMotion className="lg:hidden">
-        <NavMobile categories={categories} />
+        <NavMobile categories={categories} siteName={siteName} logoUrl={logoUrl} />
       </NavbarMotion>
 
       <div aria-hidden="true" className="h-14 shrink-0 lg:h-[108px]" />

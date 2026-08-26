@@ -8,13 +8,15 @@ import {
 
 interface NavDesktopProps {
   categories: NavCategory[]
+  siteName: string
+  logoUrl: string
 }
 
-export function NavDesktop({ categories }: NavDesktopProps) {
+export function NavDesktop({ categories, siteName, logoUrl }: NavDesktopProps) {
   return (
     <>
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-4 px-8 lg:px-12">
-        <NavBrand />
+        <NavBrand siteName={siteName} logoUrl={logoUrl} />
 
         <div className="flex flex-1 justify-center">
           <NavSearch />

@@ -19,9 +19,11 @@ import { type NavCategory, NavBrand } from '@/components/global/nav'
 
 interface MobileMenuDrawerProps {
   categories: NavCategory[]
+  siteName: string
+  logoUrl: string
 }
 
-export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
+export function MobileMenuDrawer({ categories, siteName, logoUrl }: MobileMenuDrawerProps) {
   const [open, setOpen] = useState(false)
 
   const wishlistCount = useWishlistStore((state) => state.ids.length)
@@ -46,7 +48,7 @@ export function MobileMenuDrawer({ categories }: MobileMenuDrawerProps) {
 
           <div className="flex items-center justify-end">
             <div className="absolute inset-0 flex items-center justify-center">
-              <NavBrand className="h-12" />
+              <NavBrand className="h-12" siteName={siteName} logoUrl={logoUrl} />
             </div>
 
             <SheetClose asChild>

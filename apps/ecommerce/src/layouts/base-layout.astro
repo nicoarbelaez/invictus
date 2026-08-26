@@ -1,9 +1,10 @@
 ---
-import BaseHead from '@/components/BaseHead.astro'
+import BaseHead from '@/components/base-head.astro'
 import Footer from '@/components/global/Footer.astro'
-import { NavBar } from '@/components/global/NavBar'
+import { NavBar } from '@/components/global/nav-bar'
 import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
+import { getSiteSettings } from '@/lib/cms'
 import { productRepository } from '@/features/product/repository'
 
 interface Props {
@@ -30,7 +31,8 @@ const {
   className,
 } = Astro.props
 
-const categories = await productRepository.getCategories()
+const [categories, site] = await Promise.all([productRepository.getCategories(), getSiteSettings()])
+
 const navCategories = categories.map((c) => ({
   label: c.label == '' ? c.slug : c.label,
   href: `/category/${c.slug}`,
@@ -48,11 +50,17 @@ const navCategories = categories.map((c) => ({
       type={type}
       productName={productName}
       category={category}
+      site={site}
     />
   </head>
 
   <body class="bg-background text-foreground">
-    <NavBar categories={navCategories} client:idle={{ timeout: 200 }} />
+    <NavBar
+      categories={navCategories}
+      siteName={site.siteName}
+      logoUrl={site.logoUrl}
+      client:idle={{ timeout: 200 }}
+    />
     <Toaster position="bottom-right" richColors client:idle />
 
     <div class="flex min-h-dvh flex-col">
