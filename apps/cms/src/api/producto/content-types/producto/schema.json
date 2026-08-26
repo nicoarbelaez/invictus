@@ -9,38 +9,72 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "Titulo": {
       "type": "string",
       "minLength": 3,
       "maxLength": 120,
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Slug": {
       "type": "uid",
       "targetField": "Titulo",
       "required": true,
       "minLength": 3,
-      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Descripcion": {
       "type": "text",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "DescripcionCorta": {
       "type": "string",
-      "maxLength": 160
+      "maxLength": 160,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Precio": {
       "type": "biginteger",
       "required": true,
-      "min": "0"
+      "min": "0",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Descuento": {
       "type": "decimal",
       "min": 0,
-      "max": 1
+      "max": 1,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Imagenes": {
       "type": "media",
@@ -48,36 +82,71 @@
       "required": true,
       "allowedTypes": [
         "images"
-      ]
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Stock": {
       "type": "integer",
       "default": 0,
-      "min": 0
+      "min": 0,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Categorias": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::categoria.categoria",
-      "mappedBy": "Producto"
+      "mappedBy": "Producto",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Oro": {
       "type": "component",
       "component": "joyeria.oro",
-      "repeatable": false
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Medidas": {
       "type": "component",
       "component": "joyeria.medidas",
-      "repeatable": false
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
     "Tags": {
-      "type": "json"
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Activo": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     }
   }
 }

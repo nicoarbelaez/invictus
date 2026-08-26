@@ -9,24 +9,43 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "Label": {
       "type": "string",
       "minLength": 3,
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Slug": {
       "type": "uid",
       "required": true,
       "minLength": 3,
-      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "Producto": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::producto.producto",
-      "inversedBy": "Categorias"
+      "inversedBy": "Categorias",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     }
   }
 }

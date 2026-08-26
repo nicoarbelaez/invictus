@@ -403,21 +403,40 @@ export interface ApiCategoriaCategoria extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true
   }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
   attributes: {
     createdAt: Schema.Attribute.DateTime
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
     Label: Schema.Attribute.String &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3
       }>
-    locale: Schema.Attribute.String & Schema.Attribute.Private
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'> &
-      Schema.Attribute.Private
-    Producto: Schema.Attribute.Relation<'manyToOne', 'api::producto.producto'>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'>
+    Producto: Schema.Attribute.Relation<'manyToOne', 'api::producto.producto'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
     publishedAt: Schema.Attribute.DateTime
     Slug: Schema.Attribute.UID &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3
       }>
@@ -436,9 +455,19 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   options: {
     draftAndPublish: true
   }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
   attributes: {
     bannerslide: Schema.Attribute.Component<'componentes.carrusel-de-banner', true> &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMax<
         {
           max: 3
@@ -448,9 +477,8 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
       >
     createdAt: Schema.Attribute.DateTime
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
-    locale: Schema.Attribute.String & Schema.Attribute.Private
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::global.global'> &
-      Schema.Attribute.Private
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::global.global'>
     publishedAt: Schema.Attribute.DateTime
     updatedAt: Schema.Attribute.DateTime
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
@@ -467,17 +495,50 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true
   }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
   attributes: {
-    Activo: Schema.Attribute.Boolean & Schema.Attribute.Required & Schema.Attribute.DefaultTo<true>
-    Categorias: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'>
+    Activo: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
+      Schema.Attribute.DefaultTo<true>
+    Categorias: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
     createdAt: Schema.Attribute.DateTime
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
-    Descripcion: Schema.Attribute.Text & Schema.Attribute.Required
+    Descripcion: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
     DescripcionCorta: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 160
       }>
     Descuento: Schema.Attribute.Decimal &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
       Schema.Attribute.SetMinMax<
         {
           max: 1
@@ -485,14 +546,34 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         },
         number
       >
-    Imagenes: Schema.Attribute.Media<'images', true> & Schema.Attribute.Required
-    locale: Schema.Attribute.String & Schema.Attribute.Private
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::producto.producto'> &
-      Schema.Attribute.Private
-    Medidas: Schema.Attribute.Component<'joyeria.medidas', false>
-    Oro: Schema.Attribute.Component<'joyeria.oro', false>
+    Imagenes: Schema.Attribute.Media<'images', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::producto.producto'>
+    Medidas: Schema.Attribute.Component<'joyeria.medidas', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
+    Oro: Schema.Attribute.Component<'joyeria.oro', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
     Precio: Schema.Attribute.BigInteger &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
       Schema.Attribute.SetMinMax<
         {
           min: '0'
@@ -502,10 +583,20 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime
     Slug: Schema.Attribute.UID<'Titulo'> &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3
       }>
     Stock: Schema.Attribute.Integer &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
       Schema.Attribute.SetMinMax<
         {
           min: 0
@@ -513,9 +604,19 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<0>
-    Tags: Schema.Attribute.JSON
+    Tags: Schema.Attribute.JSON &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
     Titulo: Schema.Attribute.String &
       Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 120
         minLength: 3
