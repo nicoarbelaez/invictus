@@ -1,5 +1,27 @@
 import type { Core } from '@strapi/strapi'
 
+const SPANISH_LOCALE = { code: 'es', name: 'Spanish (es)' }
+
+async function ensureSpanishLocale(strapi: Core.Strapi): Promise<void> {
+  const targetCode = process.env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
+  if (targetCode !== 'es') return
+
+  const locales = strapi.plugin('i18n')?.service('locales')
+  if (!locales) return
+
+  const existing = await locales.findByCode('es')
+  if (!existing) {
+    await locales.create(SPANISH_LOCALE)
+    strapi.log.info('[i18n] Created locale es (Español)')
+  }
+
+  const currentDefault = await locales.getDefaultLocale()
+  if (currentDefault === 'es') return
+
+  await locales.setDefaultLocale({ code: 'es' })
+  strapi.log.info('[i18n] Default content locale set to es')
+}
+
 // Adjust these UIDs to add/remove which content types trigger a redeploy on publish
 const REDEPLOY_TRIGGER_MODELS: string[] = [
   'api::producto.producto',
@@ -156,6 +178,8 @@ export default {
   register({ strapi }: { strapi: Core.Strapi }) {},
 
   bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    void ensureSpanishLocale(strapi)
+
     strapi.db.lifecycles.subscribe({
       models: REDEPLOY_TRIGGER_MODELS,
 
