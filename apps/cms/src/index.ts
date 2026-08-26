@@ -1,25 +1,190 @@
 import type { Core } from '@strapi/strapi'
 
-const SPANISH_LOCALE = { code: 'es', name: 'Spanish (es)' }
+/** Default content locale for Invictus (storefront + admin Content Manager). */
+const DEFAULT_CONTENT_LOCALE = {
+  code: 'es',
+  name: 'Español (es)',
+} as const
 
-async function ensureSpanishLocale(strapi: Core.Strapi): Promise<void> {
-  const targetCode = process.env.STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
-  if (targetCode !== 'es') return
+/** Secondary locale for future EN translations (not the default). */
+const ENGLISH_LOCALE = {
+  code: 'en',
+  name: 'English (en)',
+} as const
 
+const LOCALIZED_CONTENT_UIDS = [
+  'api::producto.producto',
+  'api::categoria.categoria',
+  'api::global.global',
+] as const
+
+/**
+ * Ensure content locales: Spanish default + English available.
+ * STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE only seeds the first locale on empty DB;
+ * this bootstrap keeps es as default even if en was created first.
+ * @see https://docs.strapi.io/cms/features/internationalization
+ */
+async function ensureContentLocales(strapi: Core.Strapi): Promise<void> {
   const locales = strapi.plugin('i18n')?.service('locales')
   if (!locales) return
 
-  const existing = await locales.findByCode('es')
-  if (!existing) {
-    await locales.create(SPANISH_LOCALE)
-    strapi.log.info('[i18n] Created locale es (Español)')
+  const ensureLocale = async (locale: { code: string; name: string }) => {
+    const existing = await locales.findByCode(locale.code)
+    if (!existing) {
+      await locales.create(locale)
+      strapi.log.info(`[i18n] Created locale ${locale.code} (${locale.name})`)
+      return
+    }
+    if (existing.name !== locale.name) {
+      await locales.update({ id: existing.id }, { name: locale.name })
+      strapi.log.info(`[i18n] Renamed locale ${locale.code} → ${locale.name}`)
+    }
   }
 
-  const currentDefault = await locales.getDefaultLocale()
-  if (currentDefault === 'es') return
+  await ensureLocale(DEFAULT_CONTENT_LOCALE)
+  await ensureLocale(ENGLISH_LOCALE)
 
-  await locales.setDefaultLocale({ code: 'es' })
-  strapi.log.info('[i18n] Default content locale set to es')
+  const currentDefault = await locales.getDefaultLocale()
+  if (currentDefault !== DEFAULT_CONTENT_LOCALE.code) {
+    await locales.setDefaultLocale({ code: DEFAULT_CONTENT_LOCALE.code })
+    strapi.log.info(`[i18n] Default content locale set to ${DEFAULT_CONTENT_LOCALE.code}`)
+  }
+}
+
+/**
+ * Move entries created under `en` (old default) to `es` when no Spanish row exists yet.
+ * Safe to re-run: skips documentIds that already have an `es` locale.
+ */
+async function migrateEntriesFromEnToEs(strapi: Core.Strapi): Promise<void> {
+  for (const uid of LOCALIZED_CONTENT_UIDS) {
+    const enRows = await strapi.db.query(uid).findMany({
+      where: { locale: ENGLISH_LOCALE.code },
+      select: ['id', 'documentId'],
+    })
+
+    if (enRows.length === 0) continue
+
+    let moved = 0
+    for (const row of enRows) {
+      const hasEs = await strapi.db.query(uid).findOne({
+        where: {
+          documentId: row.documentId,
+          locale: DEFAULT_CONTENT_LOCALE.code,
+        },
+        select: ['id'],
+      })
+      if (hasEs) continue
+
+      await strapi.db.query(uid).update({
+        where: { id: row.id },
+        data: { locale: DEFAULT_CONTENT_LOCALE.code },
+      })
+      moved += 1
+    }
+
+    if (moved > 0) {
+      strapi.log.info(`[i18n] Migrated ${moved} ${uid} row(s) from en → es`)
+    }
+  }
+}
+
+/**
+ * After migrating to `es`, ensure an `en` localization exists with the same Spanish
+ * localized fields (placeholder until real EN translations are written).
+ * Safe to re-run.
+ * @see https://docs.strapi.io/cms/api/document-service/locale
+ */
+async function syncSpanishContentToEsAndEn(strapi: Core.Strapi): Promise<void> {
+  await migrateEntriesFromEnToEs(strapi)
+
+  const asString = (value: unknown): string | undefined =>
+    typeof value === 'string' ? value : undefined
+
+  // Separate loops keep Document Service `data` typed per UID (union breaks TS).
+  {
+    const uid = 'api::categoria.categoria' as const
+    const drafts = await strapi.documents(uid).findMany({
+      locale: DEFAULT_CONTENT_LOCALE.code,
+      status: 'draft',
+      limit: 500,
+    })
+
+    let synced = 0
+    for (const doc of drafts) {
+      const Label = asString(doc.Label)
+      const Slug = asString(doc.Slug)
+      if (!Label || !Slug) continue
+
+      await strapi.documents(uid).update({
+        documentId: doc.documentId,
+        locale: ENGLISH_LOCALE.code,
+        data: { Label, Slug },
+      })
+
+      const published = await strapi.documents(uid).findOne({
+        documentId: doc.documentId,
+        locale: DEFAULT_CONTENT_LOCALE.code,
+        status: 'published',
+      })
+      if (published) {
+        await strapi.documents(uid).publish({
+          documentId: doc.documentId,
+          locale: ENGLISH_LOCALE.code,
+        })
+      }
+      synced += 1
+    }
+
+    if (synced > 0) {
+      strapi.log.info(`[i18n] Synced Spanish text to en for ${synced} ${uid} document(s)`)
+    }
+  }
+
+  {
+    const uid = 'api::producto.producto' as const
+    const drafts = await strapi.documents(uid).findMany({
+      locale: DEFAULT_CONTENT_LOCALE.code,
+      status: 'draft',
+      limit: 500,
+    })
+
+    let synced = 0
+    for (const doc of drafts) {
+      const Titulo = asString(doc.Titulo)
+      const Slug = asString(doc.Slug)
+      const Descripcion = asString(doc.Descripcion)
+      if (!Titulo || !Slug || !Descripcion) continue
+
+      await strapi.documents(uid).update({
+        documentId: doc.documentId,
+        locale: ENGLISH_LOCALE.code,
+        data: {
+          Titulo,
+          Slug,
+          Descripcion,
+          DescripcionCorta: asString(doc.DescripcionCorta),
+          Tags: doc.Tags,
+        },
+      })
+
+      const published = await strapi.documents(uid).findOne({
+        documentId: doc.documentId,
+        locale: DEFAULT_CONTENT_LOCALE.code,
+        status: 'published',
+      })
+      if (published) {
+        await strapi.documents(uid).publish({
+          documentId: doc.documentId,
+          locale: ENGLISH_LOCALE.code,
+        })
+      }
+      synced += 1
+    }
+
+    if (synced > 0) {
+      strapi.log.info(`[i18n] Synced Spanish text to en for ${synced} ${uid} document(s)`)
+    }
+  }
 }
 
 // Adjust these UIDs to add/remove which content types trigger a redeploy on publish
@@ -178,7 +343,10 @@ export default {
   register({ strapi }: { strapi: Core.Strapi }) {},
 
   bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    void ensureSpanishLocale(strapi)
+    void (async () => {
+      await ensureContentLocales(strapi)
+      await syncSpanishContentToEsAndEn(strapi)
+    })()
 
     strapi.db.lifecycles.subscribe({
       models: REDEPLOY_TRIGGER_MODELS,
