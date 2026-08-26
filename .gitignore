@@ -108,13 +108,12 @@ $RECYCLE.BIN/
 *~
 
 # --- Local / agent tooling artifacts ---
-# Ignore .cursor contents, but allow safe shared config (no secrets)
+# Ignore .cursor contents; allow rules/commands only (mcp.json stays local — has secrets)
 .cursor/*
 !.cursor/rules/
 !.cursor/rules/**
 !.cursor/commands/
 !.cursor/commands/**
-!.cursor/mcp.json
 
 agent-transcripts/
 *.canvas.tsx.bak
