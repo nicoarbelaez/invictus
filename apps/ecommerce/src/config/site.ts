@@ -8,3 +8,5 @@ export const WHATSAPP_NUMBER = '573173045568'
 export const DEFAULT_CITY = 'Cali'
 export const DEFAULT_REGION = 'Valle del Cauca'
 export const DEFAULT_COUNTRY = 'Colombia'
+/** Strapi i18n locale for storefront CMS requests */
+export const CMS_LOCALE = 'es'

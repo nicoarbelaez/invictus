@@ -1,5 +1,6 @@
 import qs from 'qs'
 import { CMS_URL, CMS_TOKEN } from 'astro:env/server'
+import { CMS_LOCALE } from '@/config/site'
 import type {
   StrapiListResponse,
   StrapiSingleResponse,
@@ -27,6 +28,7 @@ export interface QueryParams {
   sort?: string | string[]
   populate?: Record<string, unknown> | string[] | true
   pagination?: { page?: number; pageSize?: number; start?: number; limit?: number }
+  locale?: string
 }
 
 // ─── Base fetch
@@ -35,7 +37,8 @@ const DEFAULT_TIMEOUT_MS = 10_000
 
 async function strapiRequest<T>(path: string, params?: QueryParams): Promise<T> {
   const baseUrl = CMS_URL.replace(/\/+$/, '')
-  const query = params ? qs.stringify(params, { encodeValuesOnly: true, skipNulls: true }) : ''
+  const queryParams = { locale: CMS_LOCALE, ...params }
+  const query = qs.stringify(queryParams, { encodeValuesOnly: true, skipNulls: true })
   const url = `${baseUrl}/api/${path.replace(/^\/+/, '')}${query ? `?${query}` : ''}`
 
   const controller = new AbortController()
