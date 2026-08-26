@@ -1,6 +1,11 @@
 import type { Core } from '@strapi/strapi'
 
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
+  // Content locales: es (default) + en — seeded in src/index.ts bootstrap
+  // @see https://docs.strapi.io/cms/features/internationalization
+  i18n: {
+    enabled: true,
+  },
   // Disabled as Strapi plugin under pnpm: resolve.exports / pathToPlugin break
   // develop ("not installed"). Types come from `pnpm cms:types` (strapi ts:generate-types
   // + scripts/generate-cms-types.js). Keep the npm package for CLI if needed.
