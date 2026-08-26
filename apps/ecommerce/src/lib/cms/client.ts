@@ -69,10 +69,14 @@ async function strapiRequest<T>(path: string, params?: QueryParams): Promise<T> 
     : await response.text()
 
   if (!response.ok) {
-    const error = body?.error ?? {}
+    const error = (typeof body === 'object' && body !== null ? body.error : null) ?? {}
+    const apiMessage =
+      typeof error.message === 'string' && error.message.length > 0
+        ? error.message
+        : response.statusText
     throw new StrapiError(
-      `Strapi responded with ${response.status}`,
-      error.message ?? response.statusText,
+      `Strapi responded with ${response.status}: ${apiMessage}`,
+      apiMessage,
       response.status,
       response.statusText,
       error.details,

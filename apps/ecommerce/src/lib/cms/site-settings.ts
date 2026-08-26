@@ -87,14 +87,14 @@ async function fetchSiteSettings(): Promise<SiteSettings> {
     const entity = await cms.global.find({ populate: GLOBAL_POPULATE })
     return mapGlobal(entity)
   } catch (err) {
-    if (import.meta.env.DEV) {
-      console.warn(
-        '[cms] getSiteSettings:',
-        isStrapiError(err) ? err.message : err instanceof Error ? err.message : err
-      )
-      return FALLBACK
-    }
-    throw err
+    const detail = isStrapiError(err)
+      ? `${err.message}${err.details != null ? ` | ${JSON.stringify(err.details)}` : ''}`
+      : err instanceof Error
+        ? err.message
+        : String(err)
+    // SSG: never fail the whole deploy on Global — brand/SEO/banner fall back until CMS schema catches up.
+    console.error('[cms] getSiteSettings failed; using FALLBACK —', detail)
+    return FALLBACK
   }
 }
 
