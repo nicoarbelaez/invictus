@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "strapi-mcp": {
+      "type": "streamable-http",
+      "url": "http://localhost:1337/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:STRAPI_MCP_TOKEN}"
+      }
+    }
+  }
+}
