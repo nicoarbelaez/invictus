@@ -2,30 +2,21 @@
   "collectionName": "components_componentes_carrusel_de_banners",
   "info": {
     "displayName": "Carrusel de Banner",
-    "icon": "apps"
+    "icon": "slideshow",
+    "description": "Slide del banner. Alt viene de Imagen.alternativeText en Media Library. Orden = drag-and-drop."
   },
   "options": {},
   "attributes": {
-    "image": {
+    "Imagen": {
       "type": "media",
       "multiple": false,
       "required": true,
       "allowedTypes": ["images"]
     },
-    "alt": {
-      "type": "text",
-      "required": true
-    },
-    "link": {
-      "type": "string"
-    },
-    "openInNewTab": {
-      "type": "boolean",
-      "default": false
-    },
-    "position": {
-      "type": "integer",
-      "required": true
+    "Enlace": {
+      "type": "component",
+      "repeatable": false,
+      "component": "componentes.enlace"
     }
   }
 }

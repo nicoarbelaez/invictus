@@ -448,7 +448,8 @@ export interface ApiCategoriaCategoria extends Struct.CollectionTypeSchema {
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals'
   info: {
-    displayName: 'global'
+    description: 'Identidad, metadatos SEO y banner del ecommerce'
+    displayName: 'Global'
     pluralName: 'globals'
     singularName: 'global'
   }
@@ -461,8 +462,16 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     }
   }
   attributes: {
-    bannerslide: Schema.Attribute.Component<'componentes.carrusel-de-banner', true> &
-      Schema.Attribute.Required &
+    AnnouncementBar: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160
+      }>
+    CarruselBanner: Schema.Attribute.Component<'componentes.carrusel-de-banner', true> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true
@@ -470,8 +479,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
       }> &
       Schema.Attribute.SetMinMax<
         {
-          max: 3
-          min: 1
+          max: 8
         },
         number
       >
@@ -479,6 +487,19 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
     locale: Schema.Attribute.String
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::global.global'>
+    Marca: Schema.Attribute.Component<'componentes.marca', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
+    Metadatos: Schema.Attribute.Component<'componentes.metadatos', false> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
     publishedAt: Schema.Attribute.DateTime
     updatedAt: Schema.Attribute.DateTime
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private

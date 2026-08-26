@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_componentes_enlaces",
+  "info": {
+    "displayName": "Enlace",
+    "icon": "link",
+    "description": "URL del slide y si debe abrirse en una pestaña nueva"
+  },
+  "options": {},
+  "attributes": {
+    "Url": {
+      "type": "string",
+      "required": true,
+      "regex": "^(https?:\\/\\/[^\\s]+|\\/[^\\s]*)$"
+    },
+    "AbrirEnNuevaPestana": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

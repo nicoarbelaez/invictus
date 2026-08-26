@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_componentes_marcas",
+  "info": {
+    "displayName": "Marca",
+    "icon": "crown",
+    "description": "Imagotipo/isologo (logo + texto) e isotipo (símbolo)"
+  },
+  "options": {},
+  "attributes": {
+    "Imagotipo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Isotipo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

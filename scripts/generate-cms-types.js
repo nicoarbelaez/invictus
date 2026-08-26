@@ -86,7 +86,7 @@ function mapAttributeType(name, fullType) {
   }
 
   if (fullType.includes('Schema.Attribute.Component')) {
-    const match = fullType.match(/'(\w+)\.(\w+)'[^>]*,\s*(true|false)/)
+    const match = fullType.match(/'([\w-]+)\.([\w-]+)'[^>]*,\s*(true|false)/)
     if (match) {
       const [, namespace, compName, repeatable] = match
       const parts = `${namespace}-${compName}`
@@ -191,13 +191,30 @@ export interface JoyeriaMedidas {
   DiametroMm: string | null
 }
 
+export interface ComponentesEnlace {
+  id: number
+  Url: string
+  AbrirEnNuevaPestana: boolean
+}
+
+export interface ComponentesMarca {
+  id: number
+  Imagotipo: StrapiMedia
+  Isotipo: StrapiMedia
+}
+
+export interface ComponentesMetadatos {
+  id: number
+  TituloCorto: string
+  TituloLargo: string
+  Descripcion: string
+}
+
 export interface ComponentesCarruselDeBanner {
   id: number
-  image: StrapiMedia
-  alt: string
-  link: string | null
-  openInNewTab: boolean
-  position: number
+  Imagen: StrapiMedia
+  Alt: string
+  Enlace: ComponentesEnlace | null
 }
 
 // ─── Response wrappers 

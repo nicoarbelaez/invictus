@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_componentes_metadatos",
+  "info": {
+    "displayName": "Metadatos",
+    "icon": "search",
+    "description": "Títulos y descripción para SEO y metadatos (og, twitter, document title)"
+  },
+  "options": {},
+  "attributes": {
+    "TituloCorto": {
+      "type": "string",
+      "required": true,
+      "minLength": 3,
+      "maxLength": 40
+    },
+    "TituloLargo": {
+      "type": "string",
+      "required": true,
+      "minLength": 10,
+      "maxLength": 70
+    },
+    "Descripcion": {
+      "type": "text",
+      "required": true,
+      "minLength": 50,
+      "maxLength": 160
+    }
+  }
+}
