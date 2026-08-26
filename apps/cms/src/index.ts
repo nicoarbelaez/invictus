@@ -115,10 +115,11 @@ async function syncSpanishContentToEsAndEn(strapi: Core.Strapi): Promise<void> {
       const Slug = asString(doc.Slug)
       if (!Label || !Slug) continue
 
+      // Cast: Document Service Input<> can omit localized attrs when types/ is stale or missing in Docker builds
       await strapi.documents(uid).update({
         documentId: doc.documentId,
         locale: ENGLISH_LOCALE.code,
-        data: { Label, Slug },
+        data: { Label, Slug } as never,
       })
 
       const published = await strapi.documents(uid).findOne({
@@ -164,7 +165,7 @@ async function syncSpanishContentToEsAndEn(strapi: Core.Strapi): Promise<void> {
           Descripcion,
           DescripcionCorta: asString(doc.DescripcionCorta),
           Tags: doc.Tags,
-        },
+        } as never,
       })
 
       const published = await strapi.documents(uid).findOne({

@@ -26,6 +26,7 @@ RUN --mount=type=cache,target=/root/.npm \
   && if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 COPY tsconfig.json ./
+COPY types ./types
 COPY src ./src
 COPY config ./config
 COPY public ./public
