@@ -159,6 +159,10 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
+/** Override Button's active:translate-y-px (breaks -translate-y-1/2 centering) with a press scale. */
+const carouselNavMotion =
+  'transition-transform duration-150 ease-out active:scale-110 motion-reduce:transition-none motion-reduce:active:scale-100'
+
 function CarouselPrevious({
   className,
   variant = 'outline',
@@ -166,6 +170,7 @@ function CarouselPrevious({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
+  const isHorizontal = orientation === 'horizontal'
 
   return (
     <Button
@@ -174,9 +179,10 @@ function CarouselPrevious({
       size={size}
       className={cn(
         'absolute touch-manipulation rounded-full',
-        orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+        carouselNavMotion,
+        isHorizontal
+          ? 'top-1/2 -left-12 -translate-y-1/2 active:not-aria-[haspopup]:-translate-y-1/2'
+          : '-top-12 left-1/2 -translate-x-1/2 rotate-90 active:not-aria-[haspopup]:-translate-x-1/2 active:not-aria-[haspopup]:translate-y-0',
         className
       )}
       disabled={!canScrollPrev}
@@ -196,6 +202,7 @@ function CarouselNext({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
+  const isHorizontal = orientation === 'horizontal'
 
   return (
     <Button
@@ -204,9 +211,10 @@ function CarouselNext({
       size={size}
       className={cn(
         'absolute touch-manipulation rounded-full',
-        orientation === 'horizontal'
-          ? 'top-1/2 -right-12 -translate-y-1/2'
-          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
+        carouselNavMotion,
+        isHorizontal
+          ? 'top-1/2 -right-12 -translate-y-1/2 active:not-aria-[haspopup]:-translate-y-1/2'
+          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90 active:not-aria-[haspopup]:-translate-x-1/2 active:not-aria-[haspopup]:translate-y-0',
         className
       )}
       disabled={!canScrollNext}

@@ -1,16 +1,22 @@
 ---
-import HeroCarousel from '@/components/landing/HeroCarousel'
+import HeroCarousel from '@/components/landing/hero-carousel'
 import { Button } from '@/components/ui/button'
 import IconWrapper from '@/components/IconWrapper.astro'
+import { getSiteSettings } from '@/lib/cms'
+
+const { bannerSlides, siteName } = await getSiteSettings()
+const hasBanner = bannerSlides.length > 0
 ---
 
 <header class="w-full overflow-hidden">
-  <!-- CAROUSEL FULL WIDTH -->
-  <HeroCarousel client:visible={{ rootMargin: '200px' }} />
+  {
+    hasBanner ? (
+      <HeroCarousel slides={bannerSlides} client:visible={{ rootMargin: '200px' }} />
+    ) : null
+  }
 
-  <!-- CONTENT OVERLAY -->
   <div class="relative z-10 mx-auto max-w-xl py-24 text-center">
-    <h1 class="text-3xl font-medium md:text-4xl">Invictus Joyas</h1>
+    <h1 class="text-3xl font-medium md:text-4xl">{siteName}</h1>
     <p class="text-muted-foreground mt-2 text-sm">La calidad que mereces</p>
 
     <div class="mt-4 flex flex-wrap justify-center gap-3">
