@@ -12,6 +12,8 @@ Reglas del monorepo para agentes. No sustituye el README humano.
 
 Mantener **Astro** para el catálogo (SSG/SEO). No proponer migración a Next salvo que el producto necesite auth, pagos online, o personalización por sesión en casi todas las páginas.
 
+**SSG estricto:** `apps/ecommerce` usa `output: 'static'`. Todo el HTML se genera en `astro build`. Los datos del CMS se leen solo en frontmatter / código de build; en producción no hay fetch runtime a Strapi. Un publish en el CMS dispara rebuild. No añadir SSR, `prerender = false`, ni llamadas CMS desde islas cliente.
+
 ---
 
 ## Rendimiento (ecommerce)
@@ -46,6 +48,7 @@ Mantener **Astro** para el catálogo (SSG/SEO). No proponer migración a Next sa
 3. No commitear secretos, `.env`, ni binarios grandes (p. ej. instaladores).
 4. No crear commits ni PRs salvo que el usuario lo pida.
 5. No documentar en markdown fuera de `docs/` / `AGENTS.md` salvo petición explícita.
+6. **Nombres de archivo en kebab-case** (`hero-carousel.tsx`, `nav-bar.tsx`, `use-checkout-form.ts`). No PascalCase ni camelCase en el path del archivo. Los **identificadores exportados** (componentes, hooks) siguen en PascalCase / camelCase de JS (`HeroCarousel`, `useCheckoutForm`). Al tocar archivos con nombre legacy, renombrarlos a kebab-case en el mismo cambio; no migrar el repo entero de golpe.
 
 ---
 
