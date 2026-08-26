@@ -2,7 +2,7 @@
 
 import { useId, useState } from 'react'
 import { CARD_PROVIDERS, INITIAL_FORM } from '@/features/cart/config/checkout.config'
-import { buildOrderMessage, buildWhatsAppUrl } from '@/features/cart/utils/checkout.utils'
+import { buildOrderMessage, buildWhatsAppUrl } from '@/features/cart/utils/checkout-utils'
 import type { CardProvider, FormState, PaymentMethod } from '@/features/cart/types/checkout.types'
 import type { CartItem } from '@/features/cart/store'
 
@@ -12,7 +12,7 @@ export type FieldBinder = (key: keyof FormState) => {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export function useCheckoutForm(items: CartItem[]) {
+export function useCheckoutForm(items: CartItem[], siteName: string) {
   const uid = useId()
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod')
@@ -33,7 +33,7 @@ export function useCheckoutForm(items: CartItem[]) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (isWhatsApp) {
-      const message = buildOrderMessage(form, items, paymentMethod, cardProvider)
+      const message = buildOrderMessage(form, items, paymentMethod, cardProvider, siteName)
       window.open(buildWhatsAppUrl(message), '_blank', 'noopener,noreferrer')
     } else {
       // TODO: integrar pasarela de pago

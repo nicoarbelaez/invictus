@@ -7,11 +7,11 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { RadioGroup } from '@/components/ui/radio-group'
 import { useCartStore } from '@/features/cart/store'
-import { useCheckoutForm } from '@/features/cart/hooks/useCheckoutForm'
+import { useCheckoutForm } from '@/features/cart/hooks/use-checkout-form'
 import { FORM_SECTIONS, PAYMENT_METHODS } from '@/features/cart/config/checkout.config'
 import { PaymentMethodCard } from './PaymentMethodCard'
 import { CardProviderSelector } from './CardProviderSelector'
-import type { FieldBinder } from '@/features/cart/hooks/useCheckoutForm'
+import type { FieldBinder } from '@/features/cart/hooks/use-checkout-form'
 import type { FieldConfig, PaymentMethod } from '@/features/cart/types/checkout.types'
 import { MessageCircleMore } from 'lucide-react'
 
@@ -66,7 +66,7 @@ function WhatsAppNotice() {
   )
 }
 
-export function CheckoutForm() {
+export function CheckoutForm({ siteName }: { siteName: string }) {
   const items = useCartStore((state) => state.items)
   const {
     field,
@@ -78,7 +78,7 @@ export function CheckoutForm() {
     submitLabel,
     handleSubmit,
     isWhatsApp,
-  } = useCheckoutForm(items)
+  } = useCheckoutForm(items, siteName)
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">

@@ -1,5 +1,5 @@
 export { CartItemRow } from './CartItemRow'
 export { CartSheet } from './CartSheet'
-export { CartCheckoutView } from './CartCheckoutView'
+export { CartCheckoutView } from './cart-checkout-view'
 export { PaymentMethodCard } from './checkout'
 export { type ShowCartToastOptions, showCartToast } from './CartToast'

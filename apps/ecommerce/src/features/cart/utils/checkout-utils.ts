@@ -1,4 +1,4 @@
-import { SITE_NAME, WHATSAPP_NUMBER } from '@/config/site'
+import { WHATSAPP_NUMBER } from '@/config/site'
 
 import { formatCurrency } from '@/utils/formatters/currency'
 
@@ -21,6 +21,7 @@ export function buildOrderMessage(
   items: CartItem[],
   paymentMethod: PaymentMethod,
   cardProvider: CardProvider,
+  siteName: string,
   sourceUrl = getCurrentPageUrl()
 ): string {
   const paymentLabel =
@@ -37,7 +38,7 @@ export function buildOrderMessage(
     .join('\n')
 
   return [
-    `Hola ${SITE_NAME}, quiero realizar el siguiente pedido 🛍️`,
+    `Hola ${siteName}, quiero realizar el siguiente pedido 🛍️`,
 
     '',
 

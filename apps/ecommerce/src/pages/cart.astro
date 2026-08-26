@@ -1,11 +1,14 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseLayout from '@/layouts/base-layout.astro'
 import { CartCheckoutView } from '@/features/cart/components'
+import { getSiteSettings } from '@/lib/cms'
+
+const site = await getSiteSettings()
 ---
 
 <BaseLayout
-  title="Carrito | Invictus Joyas"
+  title={`Carrito | ${site.siteName}`}
   description="Revisa y finaliza tu pedido de joyas en oro."
 >
-  <CartCheckoutView client:load />
+  <CartCheckoutView siteName={site.siteName} client:load />
 </BaseLayout>

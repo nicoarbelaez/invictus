@@ -3,7 +3,7 @@
 import { useCartStore } from '@/features/cart/store'
 import { CheckoutForm, EmptyCart, OrderSummary } from '@/features/cart/components/checkout'
 
-export function CartCheckoutView() {
+export function CartCheckoutView({ siteName }: { siteName: string }) {
   const items = useCartStore((state) => state.items)
 
   if (items.length === 0) return <EmptyCart />
@@ -15,7 +15,7 @@ export function CartCheckoutView() {
       </div>
 
       <div className="order-1 rounded-xl border p-6 lg:order-2 lg:p-8">
-        <CheckoutForm />
+        <CheckoutForm siteName={siteName} />
       </div>
     </div>
   )

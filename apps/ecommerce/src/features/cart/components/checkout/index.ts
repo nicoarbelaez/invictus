@@ -1,5 +1,5 @@
 export { CardProviderSelector } from './CardProviderSelector'
-export { CheckoutForm } from './CheckoutForm'
+export { CheckoutForm } from './checkout-form'
 export { EmptyCart } from './EmptyCart'
 export { OrderSummary } from './OrderSummary'
 export { PaymentMethodCard } from './PaymentMethodCard'
