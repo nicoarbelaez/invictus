@@ -5,22 +5,26 @@ import sitemap from '@astrojs/sitemap'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
 export default defineConfig({
+  // Full SSG: HTML is generated at build time. CMS publish → rebuild (no runtime fetch).
+  output: 'static',
   env: {
     schema: {
+      // Build-time only (astro:env/server). Never shipped to the browser.
       CMS_URL: envField.string({
         context: 'server',
         access: 'secret',
       }),
 
+      // Read-only Content API token (Strapi → Settings → API Tokens). Required for builds.
       CMS_TOKEN: envField.string({
         context: 'server',
         access: 'secret',
-        optional: true,
-        default: '',
+        min: 1,
       }),
     },
 
-    validateSecrets: false,
+    // Fail fast at `astro dev` / `astro build` if CMS_URL or CMS_TOKEN are missing.
+    validateSecrets: true,
   },
   vite: {
     plugins: [tailwindcss()],
