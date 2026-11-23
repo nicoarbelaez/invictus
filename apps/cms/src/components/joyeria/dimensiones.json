@@ -1,0 +1,55 @@
+{
+  "collectionName": "components_joyeria_dimensiones",
+  "info": {
+    "displayName": "Dimensiones y Confección",
+    "icon": "ruler"
+  },
+  "options": {},
+  "attributes": {
+    "TallaAnillo": {
+      "type": "decimal",
+      "min": 3,
+      "max": 14
+    },
+    "LargoCm": {
+      "type": "decimal",
+      "min": 0
+    },
+    "DiametroMm": {
+      "type": "decimal",
+      "min": 0
+    },
+    "GrosorCalibreMm": {
+      "type": "decimal",
+      "min": 0
+    },
+    "TipoBroche": {
+      "type": "enumeration",
+      "enum": [
+        "reasa",
+        "mosqueton",
+        "pico_loro",
+        "caja_seguridad",
+        "rosca_topo",
+        "mariposa",
+        "clip_candonga",
+        "sin_broche"
+      ]
+    },
+    "TipoTejido": {
+      "type": "enumeration",
+      "enum": [
+        "cordon",
+        "figaro",
+        "cartier",
+        "veneciana",
+        "lomo_corvina",
+        "forzada",
+        "singapur",
+        "rolo",
+        "gucci",
+        "otro"
+      ]
+    }
+  }
+}

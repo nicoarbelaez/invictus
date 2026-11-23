@@ -12,8 +12,7 @@ export default {
     // @see https://docs.strapi.io/cms/admin-panel-customization/locales-translations
     translations: {
       es: {
-        'i18n.CMEditViewLocalePicker.locale.create':
-          'Crear localización <bold>{locale}</bold>',
+        'i18n.CMEditViewLocalePicker.locale.create': 'Crear localización <bold>{locale}</bold>',
       },
     },
   },

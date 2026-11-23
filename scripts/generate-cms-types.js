@@ -176,6 +176,61 @@ export interface StrapiMedia {
 
 // ─── Components 
 
+export interface JoyeriaPortadaProducto {
+  id: number
+  MediaPrincipal: StrapiMedia
+  MediaHover: StrapiMedia | null
+}
+
+export interface JoyeriaFotoProducto {
+  id: number
+  Imagen: StrapiMedia
+  Rol: 'galeria' | 'modelo_puesto' | 'detalle_macro' | 'empaque' | 'video_360' | 'video_reels'
+  ProductosEnFoto?: Producto[] | null
+}
+
+export interface JoyeriaMetal {
+  id: number
+  Material: 'oro' | 'plata' | 'platino' | 'oro_laminado' | 'acero'
+  PurezaLey: '18k_750' | '14k_585' | '10k_417' | '24k_999' | 'ley_925' | 'ley_950' | 'no_aplica' | null
+  Color: 'amarillo' | 'blanco' | 'rosa' | 'dos_oros_amarillo_blanco' | 'tricolor' | null
+  ColorHex?: string | null
+  Origen: 'italiano' | 'nacional' | 'importado' | null
+  Acabado: 'pulido_brillante' | 'rodinado' | 'satinado_cepillado' | 'diamantado' | 'envejecido' | null
+  PesoGramos: string | null
+}
+
+export interface JoyeriaGema {
+  id: number
+  TipoGema: 'diamante_natural' | 'diamante_laboratorio' | 'esmeralda' | 'zafiro' | 'rubi' | 'circonia' | 'perla' | 'moissanita'
+  Corte: 'brillante_redondo' | 'corte_esmeralda' | 'princesa' | 'oval' | 'gota_pera' | 'marquise' | 'baguette' | 'cushion' | null
+  QuilatesCt: string | null
+  Claridad: string | null
+  ColorGema: string | null
+  Certificado: 'igi' | 'gia' | 'certificado_joyeria' | 'ninguno' | null
+  Cantidad: number | null
+}
+
+export interface JoyeriaDimensiones {
+  id: number
+  TallaAnillo: string | null
+  LargoCm: string | null
+  DiametroMm: string | null
+  GrosorCalibreMm: string | null
+  TipoBroche: 'reasa' | 'mosqueton' | 'pico_loro' | 'caja_seguridad' | 'rosca_topo' | 'mariposa' | 'clip_candonga' | 'sin_broche' | null
+  TipoTejido: 'cordon' | 'figaro' | 'cartier' | 'veneciana' | 'lomo_corvina' | 'forzada' | 'singapur' | 'rolo' | 'gucci' | 'otro' | null
+}
+
+export interface JoyeriaVariante {
+  id: number
+  NombreVariante: string
+  SkuVariante: string
+  TallaOLargo: string
+  PrecioAdicional: string | null
+  Stock: number
+  Disponible: boolean
+}
+
 export interface JoyeriaOro {
   id: number
   Tipo: 'italiano' | 'nacional' | 'importado' | null

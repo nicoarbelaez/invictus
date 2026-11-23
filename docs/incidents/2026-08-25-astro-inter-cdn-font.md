@@ -1,13 +1,13 @@
 # Incidente: Inter CDN + Geist local en conflicto
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-astro-inter-cdn-font` |
-| **Estado** | `fixed` |
-| **Área** | `ecommerce` |
-| **Severidad** | `medium` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                             |
+| ------------- | --------------------------------- |
+| **ID**        | `2026-08-25-astro-inter-cdn-font` |
+| **Estado**    | `fixed`                           |
+| **Área**      | `ecommerce`                       |
+| **Severidad** | `medium`                          |
+| **Abierto**   | 2026-08-25                        |
+| **Cerrado**   | 2026-08-25                        |
 
 ## Problema
 

@@ -423,14 +423,14 @@ export interface ApiCategoriaCategoria extends Struct.CollectionTypeSchema {
       }>
     locale: Schema.Attribute.String
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'>
-    Producto: Schema.Attribute.Relation<'manyToOne', 'api::producto.producto'> &
+    Productos: Schema.Attribute.Relation<'manyToMany', 'api::producto.producto'> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false
         }
       }>
     publishedAt: Schema.Attribute.DateTime
-    Slug: Schema.Attribute.UID &
+    Slug: Schema.Attribute.UID<'Label'> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -509,6 +509,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
   collectionName: 'productos'
   info: {
+    description: 'Cat\u00E1logo maestro de joyer\u00EDa'
     displayName: 'Producto'
     pluralName: 'productos'
     singularName: 'producto'
@@ -530,7 +531,7 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         }
       }> &
       Schema.Attribute.DefaultTo<true>
-    Categorias: Schema.Attribute.Relation<'oneToMany', 'api::categoria.categoria'> &
+    Categorias: Schema.Attribute.Relation<'manyToMany', 'api::categoria.categoria'> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false
@@ -567,22 +568,53 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         },
         number
       >
-    Imagenes: Schema.Attribute.Media<'images', true> &
-      Schema.Attribute.Required &
+    Destacado: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
+      Schema.Attribute.DefaultTo<false>
+    Dimensiones: Schema.Attribute.Component<'joyeria.dimensiones', false> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false
         }
       }>
+    Galeria: Schema.Attribute.Component<'joyeria.foto-producto', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
+    Gemas: Schema.Attribute.Component<'joyeria.gema', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
+    Genero: Schema.Attribute.Enumeration<['mujer', 'hombre', 'unisex', 'infantil', 'bebe']> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
+      Schema.Attribute.DefaultTo<'unisex'>
     locale: Schema.Attribute.String
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::producto.producto'>
-    Medidas: Schema.Attribute.Component<'joyeria.medidas', false> &
+    Metadatos: Schema.Attribute.Component<'componentes.metadatos', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    Metales: Schema.Attribute.Component<'joyeria.metal', true> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false
         }
       }>
-    Oro: Schema.Attribute.Component<'joyeria.oro', false> &
+    Portada: Schema.Attribute.Component<'joyeria.portada-producto', false> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false
@@ -601,7 +633,28 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         },
         string
       >
+    PrecioComparacion: Schema.Attribute.BigInteger &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
+      Schema.Attribute.SetMinMax<
+        {
+          min: '0'
+        },
+        string
+      >
     publishedAt: Schema.Attribute.DateTime
+    ReferenciaSKU: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 60
+      }>
     Slug: Schema.Attribute.UID<'Titulo'> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -625,12 +678,24 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<0>
-    Tags: Schema.Attribute.JSON &
+    TipoJoya: Schema.Attribute.Enumeration<
+      [
+        'anillo',
+        'cadena',
+        'candonga_arete',
+        'pulsera_manilla',
+        'dije',
+        'set_juego',
+        'reloj',
+        'otro',
+      ]
+    > &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
-          localized: true
+          localized: false
         }
-      }>
+      }> &
+      Schema.Attribute.DefaultTo<'otro'>
     Titulo: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -639,11 +704,17 @@ export interface ApiProductoProducto extends Struct.CollectionTypeSchema {
         }
       }> &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 120
+        maxLength: 140
         minLength: 3
       }>
     updatedAt: Schema.Attribute.DateTime
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private
+    Variantes: Schema.Attribute.Component<'joyeria.variante', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false
+        }
+      }>
   }
 }
 

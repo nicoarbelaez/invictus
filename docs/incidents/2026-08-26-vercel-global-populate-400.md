@@ -1,13 +1,13 @@
 # Incidente: Vercel build 400 en Global populate
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-26-vercel-global-populate-400` |
-| **Estado** | `fixed` |
-| **Área** | `ecommerce` |
-| **Severidad** | `high` |
-| **Abierto** | 2026-08-26 |
-| **Cerrado** | 2026-08-26 |
+| Campo         | Valor                                   |
+| ------------- | --------------------------------------- |
+| **ID**        | `2026-08-26-vercel-global-populate-400` |
+| **Estado**    | `fixed`                                 |
+| **Área**      | `ecommerce`                             |
+| **Severidad** | `high`                                  |
+| **Abierto**   | 2026-08-26                              |
+| **Cerrado**   | 2026-08-26                              |
 
 ## Problema
 

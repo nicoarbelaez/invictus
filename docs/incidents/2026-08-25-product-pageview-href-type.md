@@ -1,13 +1,13 @@
 # Incidente: Typecheck — `href` inexistente en Product
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-product-pageview-href-type` |
-| **Estado** | `fixed` |
-| **Área** | `ecommerce` |
-| **Severidad** | `low` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                                   |
+| ------------- | --------------------------------------- |
+| **ID**        | `2026-08-25-product-pageview-href-type` |
+| **Estado**    | `fixed`                                 |
+| **Área**      | `ecommerce`                             |
+| **Severidad** | `low`                                   |
+| **Abierto**   | 2026-08-25                              |
+| **Cerrado**   | 2026-08-25                              |
 
 ## Problema
 

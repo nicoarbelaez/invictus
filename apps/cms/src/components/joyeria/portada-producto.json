@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_joyeria_portada_productos",
+  "info": {
+    "displayName": "Portada de Producto",
+    "icon": "landscape",
+    "description": "Media principal y hover. Alt viene de MediaPrincipal.alternativeText en Media Library."
+  },
+  "options": {},
+  "attributes": {
+    "MediaPrincipal": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "MediaHover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    }
+  }
+}

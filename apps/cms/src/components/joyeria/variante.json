@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_joyeria_variantes",
+  "info": {
+    "displayName": "Variante de Compra",
+    "icon": "shopping-cart"
+  },
+  "options": {},
+  "attributes": {
+    "NombreVariante": {
+      "type": "string",
+      "required": true
+    },
+    "SkuVariante": {
+      "type": "string",
+      "required": true
+    },
+    "TallaOLargo": {
+      "type": "string",
+      "required": true
+    },
+    "PrecioAdicional": {
+      "type": "biginteger",
+      "default": "0"
+    },
+    "Stock": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "Disponible": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

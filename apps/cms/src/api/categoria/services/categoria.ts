@@ -2,6 +2,6 @@
  * categoria service
  */
 
-import { factories } from '@strapi/strapi';
+import { factories } from '@strapi/strapi'
 
-export default factories.createCoreService('api::categoria.categoria');
+export default factories.createCoreService('api::categoria.categoria')

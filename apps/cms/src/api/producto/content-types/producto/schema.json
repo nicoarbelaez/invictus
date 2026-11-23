@@ -4,7 +4,8 @@
   "info": {
     "singularName": "producto",
     "pluralName": "productos",
-    "displayName": "Producto"
+    "displayName": "Producto",
+    "description": "Catálogo maestro de joyería"
   },
   "options": {
     "draftAndPublish": true
@@ -18,7 +19,7 @@
     "Titulo": {
       "type": "string",
       "minLength": 3,
-      "maxLength": 120,
+      "maxLength": 140,
       "required": true,
       "pluginOptions": {
         "i18n": {
@@ -35,6 +36,162 @@
       "pluginOptions": {
         "i18n": {
           "localized": true
+        }
+      }
+    },
+    "ReferenciaSKU": {
+      "type": "string",
+      "required": false,
+      "maxLength": 60,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "TipoJoya": {
+      "type": "enumeration",
+      "required": false,
+      "default": "otro",
+      "enum": [
+        "anillo",
+        "cadena",
+        "candonga_arete",
+        "pulsera_manilla",
+        "dije",
+        "set_juego",
+        "reloj",
+        "otro"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Genero": {
+      "type": "enumeration",
+      "enum": [
+        "mujer",
+        "hombre",
+        "unisex",
+        "infantil",
+        "bebe"
+      ],
+      "default": "unisex",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Precio": {
+      "type": "biginteger",
+      "required": true,
+      "min": "0",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "PrecioComparacion": {
+      "type": "biginteger",
+      "min": "0",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Descuento": {
+      "type": "decimal",
+      "min": 0,
+      "max": 1,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Stock": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Portada": {
+      "type": "component",
+      "repeatable": false,
+      "component": "joyeria.portada-producto",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Galeria": {
+      "type": "component",
+      "repeatable": true,
+      "component": "joyeria.foto-producto",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Categorias": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::categoria.categoria",
+      "inversedBy": "Productos",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Metales": {
+      "type": "component",
+      "repeatable": true,
+      "component": "joyeria.metal",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Gemas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "joyeria.gema",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Dimensiones": {
+      "type": "component",
+      "repeatable": false,
+      "component": "joyeria.dimensiones",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "Variantes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "joyeria.variante",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
         }
       }
     },
@@ -56,85 +213,22 @@
         }
       }
     },
-    "Precio": {
-      "type": "biginteger",
-      "required": true,
-      "min": "0",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Descuento": {
-      "type": "decimal",
-      "min": 0,
-      "max": 1,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Imagenes": {
-      "type": "media",
-      "multiple": true,
-      "required": true,
-      "allowedTypes": [
-        "images"
-      ],
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Stock": {
-      "type": "integer",
-      "default": 0,
-      "min": 0,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Categorias": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::categoria.categoria",
-      "mappedBy": "Producto",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Oro": {
+    "Metadatos": {
       "type": "component",
-      "component": "joyeria.oro",
       "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Medidas": {
-      "type": "component",
-      "component": "joyeria.medidas",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "Tags": {
-      "type": "json",
+      "component": "componentes.metadatos",
       "pluginOptions": {
         "i18n": {
           "localized": true
+        }
+      }
+    },
+    "Destacado": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
         }
       }
     },

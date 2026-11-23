@@ -16,6 +16,7 @@ infra/
 **Todas las variables de entorno se configuran en: `cms/.env`**
 
 Ver `cms/.env.example` para ejemplos de:
+
 - **Desarrollo**: SQLite (sin dependencias externas)
 - **Producción**: PostgreSQL (base de datos externa)
 
@@ -104,6 +105,7 @@ docker-compose -f docker-compose.prod.yml logs -f strapi
 En producción, **NO exponer Strapi puerto 1337 directamente**. Usar reverse proxy:
 
 **Nginx:**
+
 ```nginx
 upstream strapi {
     server localhost:1337;
@@ -129,6 +131,7 @@ server {
 ```
 
 **Caddy:**
+
 ```
 api.example.com {
     reverse_proxy localhost:1337

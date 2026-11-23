@@ -1,4 +1,4 @@
-import type { Core } from '@strapi/strapi';
+import type { Core } from '@strapi/strapi'
 
 const config: Core.Config.Api = {
   rest: {
@@ -6,6 +6,6 @@ const config: Core.Config.Api = {
     maxLimit: 100,
     withCount: true,
   },
-};
+}
 
-export default config;
+export default config

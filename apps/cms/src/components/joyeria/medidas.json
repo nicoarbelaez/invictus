@@ -7,12 +7,7 @@
   "attributes": {
     "Tipo": {
       "type": "enumeration",
-      "enum": [
-        "cadena",
-        "anillo",
-        "arete",
-        "dije"
-      ]
+      "enum": ["cadena", "anillo", "arete", "dije"]
     },
     "LargoCm": {
       "type": "decimal",

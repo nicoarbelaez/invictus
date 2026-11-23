@@ -1,13 +1,13 @@
 # Incidente: \<título corto\>
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `YYYY-MM-DD-slug` |
-| **Estado** | `open` \| `in_progress` \| `fixed` \| `wontfix` |
-| **Área** | `ecommerce` \| `cms` \| `infra` \| `monorepo` |
-| **Severidad** | `low` \| `medium` \| `high` |
-| **Abierto** | YYYY-MM-DD |
-| **Cerrado** | — |
+| Campo         | Valor                                           |
+| ------------- | ----------------------------------------------- |
+| **ID**        | `YYYY-MM-DD-slug`                               |
+| **Estado**    | `open` \| `in_progress` \| `fixed` \| `wontfix` |
+| **Área**      | `ecommerce` \| `cms` \| `infra` \| `monorepo`   |
+| **Severidad** | `low` \| `medium` \| `high`                     |
+| **Abierto**   | YYYY-MM-DD                                      |
+| **Cerrado**   | —                                               |
 
 ## Problema
 

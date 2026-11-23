@@ -164,7 +164,6 @@ async function syncSpanishContentToEsAndEn(strapi: Core.Strapi): Promise<void> {
           Slug,
           Descripcion,
           DescripcionCorta: asString(doc.DescripcionCorta),
-          Tags: doc.Tags,
         } as never,
       })
 

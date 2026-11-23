@@ -1,13 +1,13 @@
 # Incidente: Hidratación excesiva con `client:load`
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-astro-client-load-hydration` |
-| **Estado** | `fixed` |
-| **Área** | `ecommerce` |
-| **Severidad** | `high` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                                    |
+| ------------- | ---------------------------------------- |
+| **ID**        | `2026-08-25-astro-client-load-hydration` |
+| **Estado**    | `fixed`                                  |
+| **Área**      | `ecommerce`                              |
+| **Severidad** | `high`                                   |
+| **Abierto**   | 2026-08-25                               |
+| **Cerrado**   | 2026-08-25                               |
 
 ## Problema
 

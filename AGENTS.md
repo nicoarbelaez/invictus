@@ -4,11 +4,11 @@ Reglas del monorepo para agentes. No sustituye el README humano.
 
 ## Stack
 
-| App | Rol | Stack |
-|-----|-----|--------|
-| `apps/cms` | Headless CMS | Strapi 5 + PostgreSQL 17 + Cloudinary |
-| `apps/ecommerce` | Storefront | Astro 6 + React islands + Tailwind 4 |
-| Root | Tooling | pnpm workspace + Turborepo |
+| App              | Rol          | Stack                                 |
+| ---------------- | ------------ | ------------------------------------- |
+| `apps/cms`       | Headless CMS | Strapi 5 + PostgreSQL 17 + Cloudinary |
+| `apps/ecommerce` | Storefront   | Astro 6 + React islands + Tailwind 4  |
+| Root             | Tooling      | pnpm workspace + Turborepo            |
 
 Mantener **Astro** para el catálogo (SSG/SEO). No proponer migración a Next salvo que el producto necesite auth, pagos online, o personalización por sesión en casi todas las páginas.
 

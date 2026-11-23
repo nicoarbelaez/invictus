@@ -1,13 +1,13 @@
 # Incidente: `@strapi/upgrade` falla por esbuild
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-strapi-upgrade-esbuild` |
-| **Estado** | `open` |
-| **Área** | `cms` |
-| **Severidad** | `medium` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | — |
+| Campo         | Valor                               |
+| ------------- | ----------------------------------- |
+| **ID**        | `2026-08-25-strapi-upgrade-esbuild` |
+| **Estado**    | `open`                              |
+| **Área**      | `cms`                               |
+| **Severidad** | `medium`                            |
+| **Abierto**   | 2026-08-25                          |
+| **Cerrado**   | —                                   |
 
 ## Problema
 

@@ -1,13 +1,13 @@
 # Incidente: CORS no cableado en Dokploy + Docker Node 20
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-cors-dokploy-docker-perf` |
-| **Estado** | `fixed` |
-| **Área** | `cms` / `infra` |
-| **Severidad** | `high` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                                 |
+| ------------- | ------------------------------------- |
+| **ID**        | `2026-08-25-cors-dokploy-docker-perf` |
+| **Estado**    | `fixed`                               |
+| **Área**      | `cms` / `infra`                       |
+| **Severidad** | `high`                                |
+| **Abierto**   | 2026-08-25                            |
+| **Cerrado**   | 2026-08-25                            |
 
 ## Problema
 
@@ -19,9 +19,9 @@
 
 1. Añadir `CORS_ORIGIN` al compose con default seguro (**solo hosts live**: vercel.app + localhost).
 2. Dominios `invictusjoyas.com` / www / `cms.invictusjoyas.com` quedan en **borrador** hasta crear zona DNS.
-2. Completar CORS (methods, headers, `keepHeaderOnError`).
-3. Dockerfile multi-stage Node 22 según docs Strapi Docker.
-4. Quitar publish de puertos; Traefik vía red Docker.
+3. Completar CORS (methods, headers, `keepHeaderOnError`).
+4. Dockerfile multi-stage Node 22 según docs Strapi Docker.
+5. Quitar publish de puertos; Traefik vía red Docker.
 
 ## Cómo se arregló
 

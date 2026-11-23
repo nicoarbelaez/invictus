@@ -8,19 +8,12 @@
     },
     "cms:types": {
       "cache": true,
-      "inputs": [
-        "src/api/**/schema.json",
-        "src/components/**/*.json"
-      ],
+      "inputs": ["src/api/**/schema.json", "src/components/**/*.json"],
       "outputs": ["types/generated/**"]
     },
     "lint": {
       "dependsOn": ["^lint"],
-      "inputs": [
-        "src/**/*.{ts,tsx,astro,js,mjs}",
-        "eslint.config.{mjs,js,ts}",
-        "package.json"
-      ]
+      "inputs": ["src/**/*.{ts,tsx,astro,js,mjs}", "eslint.config.{mjs,js,ts}", "package.json"]
     },
     "typecheck": {
       "dependsOn": ["^build"],

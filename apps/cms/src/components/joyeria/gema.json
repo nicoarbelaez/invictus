@@ -1,0 +1,59 @@
+{
+  "collectionName": "components_joyeria_gemas",
+  "info": {
+    "displayName": "Gema / Piedra Preciosa",
+    "icon": "diamond"
+  },
+  "options": {},
+  "attributes": {
+    "TipoGema": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "diamante_natural",
+        "diamante_laboratorio",
+        "esmeralda",
+        "zafiro",
+        "rubi",
+        "circonia",
+        "perla",
+        "moissanita"
+      ]
+    },
+    "Corte": {
+      "type": "enumeration",
+      "enum": [
+        "brillante_redondo",
+        "corte_esmeralda",
+        "princesa",
+        "oval",
+        "gota_pera",
+        "marquise",
+        "baguette",
+        "cushion"
+      ]
+    },
+    "QuilatesCt": {
+      "type": "decimal",
+      "min": 0
+    },
+    "Claridad": {
+      "type": "string",
+      "maxLength": 30
+    },
+    "ColorGema": {
+      "type": "string",
+      "maxLength": 30
+    },
+    "Certificado": {
+      "type": "enumeration",
+      "enum": ["igi", "gia", "certificado_joyeria", "ninguno"],
+      "default": "ninguno"
+    },
+    "Cantidad": {
+      "type": "integer",
+      "default": 1,
+      "min": 1
+    }
+  }
+}

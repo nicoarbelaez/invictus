@@ -115,5 +115,13 @@ $RECYCLE.BIN/
 !.cursor/commands/
 !.cursor/commands/**
 
+# Ignore local MCP configs with sensitive credentials
+.mcp.json
+.mcp.*.json
+.agents/mcp_config.json
+.agents/mcp_config.*.json
+.claude/mcp.json
+.claude/mcp.*.json
+
 agent-transcripts/
 *.canvas.tsx.bak

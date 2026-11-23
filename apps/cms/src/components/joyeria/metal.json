@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_joyeria_metales",
+  "info": {
+    "displayName": "Metal y Material",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "Material": {
+      "type": "enumeration",
+      "required": true,
+      "enum": ["oro", "plata", "platino", "oro_laminado", "acero"]
+    },
+    "PurezaLey": {
+      "type": "enumeration",
+      "enum": ["18k_750", "14k_585", "10k_417", "24k_999", "ley_925", "ley_950", "no_aplica"],
+      "default": "18k_750"
+    },
+    "Color": {
+      "type": "enumeration",
+      "enum": ["amarillo", "blanco", "rosa", "dos_oros_amarillo_blanco", "tricolor"],
+      "default": "amarillo"
+    },
+    "ColorHex": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color"
+    },
+    "Origen": {
+      "type": "enumeration",
+      "enum": ["italiano", "nacional", "importado"]
+    },
+    "Acabado": {
+      "type": "enumeration",
+      "enum": ["pulido_brillante", "rodinado", "satinado_cepillado", "diamantado", "envejecido"]
+    },
+    "PesoGramos": {
+      "type": "decimal",
+      "min": 0
+    }
+  }
+}

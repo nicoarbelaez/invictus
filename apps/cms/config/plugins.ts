@@ -6,6 +6,12 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
   i18n: {
     enabled: true,
   },
+  seo: {
+    enabled: true,
+  },
+  'color-picker': {
+    enabled: true,
+  },
   // Disabled as Strapi plugin under pnpm: resolve.exports / pathToPlugin break
   // develop ("not installed"). Types come from `pnpm cms:types` (strapi ts:generate-types
   // + scripts/generate-cms-types.js). Keep the npm package for CLI if needed.

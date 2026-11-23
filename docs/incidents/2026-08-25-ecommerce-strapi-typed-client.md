@@ -1,13 +1,13 @@
 # Incidente: `strapi-typed-client` arrastra Strapi al storefront
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-ecommerce-strapi-typed-client` |
-| **Estado** | `fixed` |
-| **Área** | `ecommerce` |
-| **Severidad** | `medium` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                                      |
+| ------------- | ------------------------------------------ |
+| **ID**        | `2026-08-25-ecommerce-strapi-typed-client` |
+| **Estado**    | `fixed`                                    |
+| **Área**      | `ecommerce`                                |
+| **Severidad** | `medium`                                   |
+| **Abierto**   | 2026-08-25                                 |
+| **Cerrado**   | 2026-08-25                                 |
 
 ## Problema
 

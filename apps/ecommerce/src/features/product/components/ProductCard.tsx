@@ -60,7 +60,7 @@ export function ProductCard({
     >
       <Card
         className={cn(
-          'group/card ring-foreground/10 w-full max-w-88 justify-between gap-0 overflow-hidden border-0 p-0 shadow-none ring-1',
+          'group/card ring-foreground/10 borde r-0 w-full max-w-88 justify-between gap-0 overflow-hidden rounded-t-none p-0 shadow-none ring-1',
           className
         )}
       >

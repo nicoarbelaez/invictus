@@ -44,6 +44,112 @@ export interface StrapiMedia {
 
 // ─── Components
 
+export interface JoyeriaPortadaProducto {
+  id: number
+  MediaPrincipal: StrapiMedia
+  MediaHover: StrapiMedia | null
+}
+
+export interface JoyeriaFotoProducto {
+  id: number
+  Imagen: StrapiMedia
+  Rol: 'galeria' | 'modelo_puesto' | 'detalle_macro' | 'empaque' | 'video_360' | 'video_reels'
+  ProductosEnFoto?: Producto[] | null
+}
+
+export interface JoyeriaMetal {
+  id: number
+  Material: 'oro' | 'plata' | 'platino' | 'oro_laminado' | 'acero'
+  PurezaLey:
+    | '18k_750'
+    | '14k_585'
+    | '10k_417'
+    | '24k_999'
+    | 'ley_925'
+    | 'ley_950'
+    | 'no_aplica'
+    | null
+  Color: 'amarillo' | 'blanco' | 'rosa' | 'dos_oros_amarillo_blanco' | 'tricolor' | null
+  ColorHex?: string | null
+  Origen: 'italiano' | 'nacional' | 'importado' | null
+  Acabado:
+    | 'pulido_brillante'
+    | 'rodinado'
+    | 'satinado_cepillado'
+    | 'diamantado'
+    | 'envejecido'
+    | null
+  PesoGramos: string | null
+}
+
+export interface JoyeriaGema {
+  id: number
+  TipoGema:
+    | 'diamante_natural'
+    | 'diamante_laboratorio'
+    | 'esmeralda'
+    | 'zafiro'
+    | 'rubi'
+    | 'circonia'
+    | 'perla'
+    | 'moissanita'
+  Corte:
+    | 'brillante_redondo'
+    | 'corte_esmeralda'
+    | 'princesa'
+    | 'oval'
+    | 'gota_pera'
+    | 'marquise'
+    | 'baguette'
+    | 'cushion'
+    | null
+  QuilatesCt: string | null
+  Claridad: string | null
+  ColorGema: string | null
+  Certificado: 'igi' | 'gia' | 'certificado_joyeria' | 'ninguno' | null
+  Cantidad: number | null
+}
+
+export interface JoyeriaDimensiones {
+  id: number
+  TallaAnillo: string | null
+  LargoCm: string | null
+  DiametroMm: string | null
+  GrosorCalibreMm: string | null
+  TipoBroche:
+    | 'reasa'
+    | 'mosqueton'
+    | 'pico_loro'
+    | 'caja_seguridad'
+    | 'rosca_topo'
+    | 'mariposa'
+    | 'clip_candonga'
+    | 'sin_broche'
+    | null
+  TipoTejido:
+    | 'cordon'
+    | 'figaro'
+    | 'cartier'
+    | 'veneciana'
+    | 'lomo_corvina'
+    | 'forzada'
+    | 'singapur'
+    | 'rolo'
+    | 'gucci'
+    | 'otro'
+    | null
+}
+
+export interface JoyeriaVariante {
+  id: number
+  NombreVariante: string
+  SkuVariante: string
+  TallaOLargo: string
+  PrecioAdicional: string | null
+  Stock: number
+  Disponible: boolean
+}
+
 export interface JoyeriaOro {
   id: number
   Tipo: 'italiano' | 'nacional' | 'importado' | null
@@ -81,6 +187,7 @@ export interface ComponentesMetadatos {
 export interface ComponentesCarruselDeBanner {
   id: number
   Imagen: StrapiMedia
+  Alt: string
   Enlace: ComponentesEnlace | null
 }
 
@@ -109,7 +216,7 @@ export interface Categoria {
   id: number
   documentId: string
   Label: string | null
-  Producto: Producto | null
+  Productos: Producto | null
   Slug: string | null
   createdAt: string
   updatedAt: string
@@ -134,18 +241,26 @@ export interface Producto {
   id: number
   documentId: string
   Activo: boolean | null
-  Categorias: Categoria[] | null
+  Categorias: Categoria | null
   Descripcion: string | null
   DescripcionCorta: string | null
   Descuento: string | null
-  Imagenes: StrapiMedia[] | null
-  Medidas: JoyeriaMedidas | null
-  Oro: JoyeriaOro | null
+  Destacado: boolean | null
+  Dimensiones: JoyeriaDimensiones | null
+  Galeria: JoyeriaFotoProducto[] | null
+  Gemas: JoyeriaGema[] | null
+  Genero: string | null
+  Metadatos: ComponentesMetadatos | null
+  Metales: JoyeriaMetal[] | null
+  Portada: JoyeriaPortadaProducto | null
   Precio: string | null
+  PrecioComparacion: string | null
+  ReferenciaSKU: string | null
   Slug: string | null
   Stock: number | null
-  Tags: unknown | null
+  TipoJoya: string | null
   Titulo: string | null
+  Variantes: JoyeriaVariante[] | null
   createdAt: string
   updatedAt: string
   publishedAt: string | null

@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_joyeria_foto_productos",
+  "info": {
+    "displayName": "Foto de Producto / Lookbook",
+    "icon": "picture",
+    "description": "Imagen o video con rol. Alt viene de Imagen.alternativeText en Media Library."
+  },
+  "options": {},
+  "attributes": {
+    "Imagen": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "Rol": {
+      "type": "enumeration",
+      "enum": [
+        "galeria",
+        "modelo_puesto",
+        "detalle_macro",
+        "empaque",
+        "video_360",
+        "video_reels"
+      ],
+      "default": "galeria",
+      "required": true
+    },
+    "ProductosEnFoto": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::producto.producto"
+    }
+  }
+}

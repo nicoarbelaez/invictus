@@ -1,13 +1,13 @@
 # Incidente: CMS no arranca — `strapi-typed-client` + pnpm
 
-| Campo | Valor |
-|-------|--------|
-| **ID** | `2026-08-25-cms-strapi-typed-client-pnpm` |
-| **Estado** | `fixed` |
-| **Área** | `cms` |
-| **Severidad** | `high` |
-| **Abierto** | 2026-08-25 |
-| **Cerrado** | 2026-08-25 |
+| Campo         | Valor                                     |
+| ------------- | ----------------------------------------- |
+| **ID**        | `2026-08-25-cms-strapi-typed-client-pnpm` |
+| **Estado**    | `fixed`                                   |
+| **Área**      | `cms`                                     |
+| **Severidad** | `high`                                    |
+| **Abierto**   | 2026-08-25                                |
+| **Cerrado**   | 2026-08-25                                |
 
 ## Problema
 
